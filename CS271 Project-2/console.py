@@ -1,4 +1,4 @@
-# Yang Jiao 8222745. Lab assignment 4.
+# Yang Jiao 
 
 WHITE = 'w'
 BLACK = 'b'
