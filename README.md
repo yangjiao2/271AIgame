@@ -18,24 +18,24 @@ Methods that could avoid unecessary steps:
     git config --global branch.autosetuprebase always     
    
 
-Be Careful with the order of the commands:     
-  
-switch to second directory
+Be Careful with the order of the commands:      
+        
+switch to second directory        
 cd ~/repositoryfolder
    
-pull in the latest changes of your remote repository
+pull in the latest changes of your remote repository        
 git pull
   
-make changes
+make changes      
   
-commit the changes
-git commit -a -m "A change"
+commit the changes        
+git commit -a -m "A change"      
   
-push changes to remote repository
-git push (origin) 
+push changes to remote repository        
+git push (origin)        
   
-   
-  
+       
+
 Other useful commands:     
 $ git status     
 Lists all new or modified files to be committed     
