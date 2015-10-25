@@ -1,7 +1,10 @@
 # 271AIgame
 
 1. Notes for teamwork:      
-1) Github     
+1) Github: command line or download a github desktop
+   
+  
+for command:        
 [Optional]download git     
 [Optional]create Github folder in your computer      
 config your github by     
@@ -13,25 +16,26 @@ Start work! Remember to check for uncommited changes!
 Methods that could avoid unecessary steps:     
 [Optional] Avoid merge commits for pulling     
     git config --global branch.autosetuprebase always     
+   
 
 Be Careful with the order of the commands:     
-
-# switch to second directory
+  
+switch to second directory
 cd ~/repositoryfolder
-
-# pull in the latest changes of your remote repository
+   
+pull in the latest changes of your remote repository
 git pull
-
-# make changes
-
-# commit the changes
+  
+make changes
+  
+commit the changes
 git commit -a -m "A change"
-
-# push changes to remote repository
+  
+push changes to remote repository
 git push (origin) 
-
-
-
+  
+   
+  
 Other useful commands:     
 $ git status     
 Lists all new or modified files to be committed     
