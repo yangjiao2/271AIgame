@@ -28,8 +28,9 @@ git pull
   
 make changes      
   
-commit the changes        
-git commit -a -m "A change"      
+commit the changes   
+git add .
+git commit -a / git commit -m "A change"      
   
 push changes to remote repository        
 git push (origin)        
