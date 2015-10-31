@@ -15,8 +15,8 @@ i = 0
 #Make  a super class called AI? for inheritance?
 class Ai(object):
 
-	prevMoveX = -1
-	prevMoveY = -1
+	bestMoveX = -1
+	bestMoveY = -1
 	
 	#=======================================================================
 	#				Initialization
@@ -26,16 +26,18 @@ class Ai(object):
 
 	def takeMove(self, move):
 		legalMovesList.takeTileByIndex(move, self.marker)
-		self.prevMoveX = legalMovesList.prevX
-		self.prevMoveY = legalMovesList.prevY
+		self.bestMoveX = legalMovesList.prevX
+		self.bestMoveY = legalMovesList.prevY
 		if isDebugMode == True:
-			if freeTiles[self.prevMoveX][self.prevMoveY] == 0:
+			if freeTiles[self.bestMoveX][self.bestMoveY] == 0:
 				#print "Tile [%d,%d]" % (legalMovesList.prevX, legalMovesList.prevY)
 				#print i
-				freeTiles[self.prevMoveX][self.prevMoveY] = self.marker
+				freeTiles[self.bestMoveX][self.bestMoveY] = self.marker
 			else:	
 				print "Fail! Tile [%d,%d] is already taken!" % (legalMovesList.prevX, legalMovesList.prevY)
-
+		
+		#Log the move into the gameboard
+		GameBoard.takeTile(self.bestMoveX, self.bestMoveY, self.marker)
 
 class RandomAi(Ai):
 	#=======================================================================

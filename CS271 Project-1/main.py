@@ -1,7 +1,9 @@
 from DumbAiModule import MidAi
 from DumbAiModule import RandomAi
+from SmartAiModule import BasicAi
 import GameBoard
 import DumbAiModule
+import SmartAiModule
 
 #=======================================================================
 #				MAIN
@@ -20,22 +22,17 @@ if False:
 
 #End Debug! Here is the game!
 a = MidAi(1)
-b = RandomAi(2)
+b = BasicAi(2)
 
 while(GameBoard.isGameOver == False):
 	a.takeDumbMove()
-	print "Player 1: Takes Turn: [%d, %d]" % (a.prevMoveX, a.prevMoveY)
-	GameBoard.takeTile(a.prevMoveX, a.prevMoveY, a.marker)
+	print "Player 1: Takes Turn: [%d, %d]" % (a.bestMoveX, a.bestMoveY)
 	GameBoard.printMatrix(GameBoard.freeTiles)
 	if (GameBoard.isGameOver == True):
 		break
 		
 	b.takeDumbMove()
-	print "Player 2: Takes Turn: [%d, %d]" % (b.prevMoveX, b.prevMoveY)
-	GameBoard.takeTile(b.prevMoveX, b.prevMoveY, b.marker)
+	print "Player 2: Takes Turn: [%d, %d]" % (b.bestMoveX, b.bestMoveY)
 	GameBoard.printMatrix(GameBoard.freeTiles)
 	
 #endWhile
-
-
-
