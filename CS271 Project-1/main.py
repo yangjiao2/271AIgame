@@ -21,7 +21,7 @@ if False:
 			break
 
 #End Debug! Here is the game!
-a = MidAi(1)
+a = BasicAi(1)
 b = BasicAi(2)
 
 while(GameBoard.isGameOver == False):
