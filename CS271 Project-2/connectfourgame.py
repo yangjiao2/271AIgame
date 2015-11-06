@@ -10,7 +10,7 @@ PLAYER2 = 'o'
 
 class ConnectFourGame:
     
-    def __init__(self, board_col, board_row, win_length):
+    def __init__(self, board_col, board_row, win_length = 4):
         global NONE, PLAYER1, PLAYER2
         self.BOARD_COLUMNS = board_col
         self.BOARD_ROWS = board_row
