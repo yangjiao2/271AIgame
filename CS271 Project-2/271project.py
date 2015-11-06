@@ -17,8 +17,8 @@ class Puzzle(QtGui.QWidget):
 		self.setGeometry(300, 300, 700, 500)
 		self.setWindowTitle('Puzzle')
 		gridlayout = QtGui.QGridLayout()
-		self.row = QtGui.QTextEdit()
-		self.column = QtGui.QTextEdit()
+		self.row = QtGui.QLineEdit()
+		self.column = QtGui.QLineEdit()
 		gridlayout.addWidget(self.row,60,120,10,10)
 		gridlayout.addWidget(self.column,60,100,10,10)
 		button1 = QtGui.QPushButton( "move",self)
@@ -63,8 +63,8 @@ class Puzzle(QtGui.QWidget):
 					qp.setBrush(QtGui.QColor(0,0,255))
 				qp.drawRect(10+20*j,10+i*20,20,20)
 	def turn(self,qp):
-		row = int(self.row.toPlainText())
-		column = int(self.column.toPlainText())
+		row = int(self.row.text())
+		column = int(self.column.text())
 		self.chessboard.drop_piece(column,row)
 def main():
 	app = QtGui.QApplication(sys.argv)
