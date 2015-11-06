@@ -1,22 +1,7 @@
-# connectfourgameclass.py
-
-
 '''
 This class is a module for implementations in the connectfour game.
 '''
 
-'''
-pieces are represented by ' ', '1', '-1'
-
-'''
-
-'''
-evaluate algorithm
-space take, time take
-compete 
-literature-> best, brute force
-
-'''
 
 NONE = '.'
 PLAYER1 = 'x'

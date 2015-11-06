@@ -1,6 +1,14 @@
 # 271AIgame
+1. AI design
 
-1. Notes for teamwork:      
+1) evaluate algorithm: space take, time take
+2) computer vs. computer, human vs. computer 
+3) compare with other algorithm using resources, literature such as brute force
+
+
+
+
+2. Notes for teamwork:      
 1) Github: command line or download a github desktop
    
   
