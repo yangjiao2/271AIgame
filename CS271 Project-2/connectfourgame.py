@@ -34,7 +34,7 @@ class ConnectFourGame:
             raise ValueError('column number must be int between 0 and {}'.format(self.BOARD_COLUMNS - 1))
 
     def _row_check(self, row):
-        if type(row) != int or not 0 <= row < self.BOARD_COLUMNS:
+        if type(row) != int or not 0 <= row < self.BOARD_ROWS:
             raise ValueError('column number must be int between 0 and {}'.format(self.BOARD_COLUMNS - 1))
 
     def _check_winner_exist(self):
@@ -42,6 +42,9 @@ class ConnectFourGame:
         if self.winning_player() != NONE:
             return True
         return False
+    
+    def check_within_boundary(self, col, row):
+        return 0 <= col < self.BOARD_COLUMNS and 0 <= row < self.BOARD_ROWS
 
     def check_empty(self, col, row):
         ''' check if a tile is empty, return True if it is empty; this can be used by AI to check available moves '''
