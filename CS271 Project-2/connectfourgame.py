@@ -18,13 +18,10 @@ literature-> best, brute force
 
 '''
 
-NONE = ' '
-PLAYER1 = '1'
-PLAYER2 = '-1'
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
 
-
-class InvalidConnectFourMoveError(Exception):
-    pass
 
 class ConnectFourGame:
     
@@ -47,36 +44,36 @@ class ConnectFourGame:
         return self.board
 
 
-    def _move_col_check(self, col):
+    def _col_check(self, col):
         if type(col) != int or not 0 <= col < self.BOARD_COLUMNS:
             raise ValueError('column number must be int between 0 and {}'.format(self.BOARD_COLUMNS - 1))
 
-    def _move_row_check(self, row):
-         if type(row) != int or not 0 <= row < self.BOARD_COLUMNS:
+    def _row_check(self, row):
+        if type(row) != int or not 0 <= row < self.BOARD_COLUMNS:
             raise ValueError('column number must be int between 0 and {}'.format(self.BOARD_COLUMNS - 1))
 
-    def _winner_check(self):
+    def _check_winner_exist(self):
         global NONE, PLAYER1, PLAYER2
-        if winning_player() != NONE:
+        if self.winning_player() != NONE:
             return True
+        return False
 
-    def check_empty(col, row):
-        ''' check if a tile is empty, this can be used by AI to check available moves '''
-
-        if self.board[col][row] != NONE:
+    def check_empty(self, col, row):
+        ''' check if a tile is empty, return True if it is empty; this can be used by AI to check available moves '''
+        if self.board[col][row] == NONE:
             return True
         else:
             return False
             
     def drop_piece(self, column_number, row_number):
         ''' drop a piece on the board'''
-        _move_col_check(column_number)
-        _move_row_check(row_number)
+        self._col_check(column_number)
+        self._row_check(row_number)
  
-        if not _check_empty(column_number, row_number):
+        if (not self.check_empty(column_number, row_number)):
             raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
         else:
-            self.board[column_number][empty_row] = self.turn
+            self.board[column_number][row_number] = self.turn
             self._opposite_turn()
 
     def winning_player(self):
@@ -91,6 +88,7 @@ class ConnectFourGame:
                     else:
                         self._opposite_turn()
         self.winner = winner
+        return NONE
 
     def print_board(self):
         ''' print the board in console '''
@@ -108,8 +106,10 @@ class ConnectFourGame:
         global PLAYER1, PLAYER2
         if self.turn == PLAYER1:
             self.turn = PLAYER2
+            return
         else:
-            self.turn == PLAYER1
+            self.turn = PLAYER1
+            return
 
     def _winning_sequence_begins_at(self, col, row):
         return self._check_sequence_in_a_row(col, row, 0, 1) \
@@ -136,4 +136,4 @@ class ConnectFourGame:
         
 
 
-cfg = ConnectFourGame(8,8,4)
+
