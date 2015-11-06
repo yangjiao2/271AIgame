@@ -1,5 +1,10 @@
 import ConnectFourGame
 
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+
+
 if __name__ == "__main__":
 	cfg = ConnectFourGame.ConnectFourGame(8,8) # 8 * 8 
 	cfg.print_board()

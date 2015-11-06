@@ -3,9 +3,7 @@ This class is a module for implementations in the connectfour game.
 '''
 
 
-NONE = '.'
-PLAYER1 = 'x'
-PLAYER2 = 'o'
+from main import NONE, PLAYER1, PLAYER2
 
 
 class ConnectFourGame:
