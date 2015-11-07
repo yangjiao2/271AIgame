@@ -1,9 +1,12 @@
 # 271AIgame
 1. AI design
 
-1) evaluate algorithm: space take, time take
+1) evaluate algorithm: how good is it? is complete? is complex? space take, time take
 2) computer vs. computer, human vs. computer 
-3) compare with other algorithm using resources, literature such as brute force
+-compare to other AI to determine how good is (percentage of win, relative to speed)
+-make some claims and try to back it up about our AI
+3) compare with other algorithm using resources: compare with brute force and with most optimal algorithm
+-how does it compare to dumb AI and how compare to AI that always makes best move (forsight)
 
 
 
