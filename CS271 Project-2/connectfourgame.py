@@ -6,7 +6,7 @@ This class is a module for implementations in the connectfour game.
 from main import NONE, PLAYER1, PLAYER2
 
 
-class ConnectFourGame:
+class connectfourgame:
     
     def __init__(self, board_col, board_row, win_length = 4):
         global NONE, PLAYER1, PLAYER2
@@ -50,6 +50,15 @@ class ConnectFourGame:
             return True
         else:
             return False
+    
+    def turn(self):
+        global NONE, PLAYER1, PLAYER2
+        if (self.turn == NONE):
+            return "NONE"
+        elif (self.turn == PLAYER1):
+            return "PLAYER1"
+        else:
+            return "PLAYER2"
             
     def drop_piece(self, column_number, row_number):
         ''' drop a piece on the board'''
