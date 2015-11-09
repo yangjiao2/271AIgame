@@ -47,14 +47,14 @@ class CostFunction(object):
 #=======================================================================
 #	METHOD TO FIND BEST MOVE
 #=======================================================================					
-	def findBestMove(self):
+	def findBestQuickMove(self):
 		#First see if min can win...
-		bestMin = self.findBestValue(self.min)
+		bestMin = self.findBestQuickValue(self.min)
 		bestMinX = self.bestX
 		bestMinY = self.bestY
 		
 		#See if max can win
-		bestMax = self.findBestValue(self.max)
+		bestMax = self.findBestQuickValue(self.max)
 		
 		#If min can win soon, try to block
 		if bestMin >= MOVES_TO_WIN and bestMin > bestMax:
@@ -62,7 +62,7 @@ class CostFunction(object):
 			self.bestY = bestMinY
 		#Otherwise, default will keep Max Best	
 	
-	def findBestValue(self, matrix):
+	def findBestQuickValue(self, matrix):
 		bestValue = -1
 		
 		for i in range(0, boardLength):

@@ -1,6 +1,8 @@
 from Cost import CostFunction
+from DepthFirstSearch import DFS
 import GameBoard
 import legalMovesList
+import DepthFirstSearch
 #import Cost
 
 freeTiles = [[0] * GameBoard.boardLength for i in range(GameBoard.boardLength)]
@@ -27,8 +29,9 @@ class BasicAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def takeDumbMove(self):
-		cost = CostFunction(self.marker)
-		cost.findBestMove()
+		dfs = DFS(self.marker)
+		cost = dfs.rootCost
+		cost.findBestQuickMove()
 		self.bestMoveX = cost.bestX
 		self.bestMoveY = cost.bestY
 	
