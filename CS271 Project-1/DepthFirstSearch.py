@@ -53,7 +53,7 @@ class DFS(object):
 					
 					parentNode.addChild(newNode)
 					
-					#Make a new costfunction with change in game board with this tile occupied by max/min
+					#Make a new costfunction with change adjusted with just one move! occupied by max/min
 					newCost = parentCost	#make a new modified one!
 					
 					#call this to addchildren with !maxOrMin

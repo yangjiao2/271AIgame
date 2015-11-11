@@ -1,8 +1,5 @@
-from DumbAiModule import MidAi
-from DumbAiModule import RandomAi
 from SmartAiModule import BasicAi
 import GameBoard
-import DumbAiModule
 import SmartAiModule
 
 #=======================================================================

@@ -6,7 +6,7 @@ import random,time
 import Queue
 import ConnectFourGame
 
-
+# pvp, cvp, turn, (row, column)
 
 class Puzzle(QtGui.QWidget):
 	def __init__(self):

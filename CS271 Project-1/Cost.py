@@ -8,10 +8,14 @@ MOVES_TO_WIN = 4
 
 class CostFunction(object):
 
+#READ ME!
+#This requires boardLength + Board [][]! Can be taken statically or by parameter
+
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
 	def __init__(self, marker):
+	#	def __init__(self, marker, GameBoard):
 		global boardLength
 		self.marker = marker
 		boardLength = GameBoard.boardLength
