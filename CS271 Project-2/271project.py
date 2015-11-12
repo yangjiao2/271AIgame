@@ -9,9 +9,9 @@ import ConnectFourGame
 # pvp, cvp, turn, (row, column)
 
 class Puzzle(QtGui.QWidget):
-	def __init__(self):
+	def __init__(self,length):
 		super(Puzzle, self).__init__()
-		self.chessboard = ConnectFourGame.ConnectFourGame(8,8)
+		self.chessboard = ConnectFourGame.ConnectFourGame(length,length)
 		self.initUI()
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
@@ -65,7 +65,7 @@ class Puzzle(QtGui.QWidget):
 	def turn(self,qp):
 		row = int(self.row.text())
 		column = int(self.column.text())
-		self.chessboard.drop_piece(column,row)
+		self.chessboard.drop_piece(row-1,colum-1)
 def main():
 	app = QtGui.QApplication(sys.argv)
 	puzzle = Puzzle()
