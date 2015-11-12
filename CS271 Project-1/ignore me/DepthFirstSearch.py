@@ -5,7 +5,7 @@ import ChoiceNode
 import Cost
 
 depth  = 2	# Depth will be revalued to adjust for timing
-
+length = 0
 
 class DFS(object):
 
@@ -14,14 +14,14 @@ class DFS(object):
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
-	def __init__(self, marker, board, length):
+	def __init__(self, marker):
 		global depth
-
+		global length
 		self.marker = marker
-		self.rootCost = CostFunction(marker, board, length)
-		self.length = length
-		self.board = board
-		ChoiceNode.setLength(self.length)
+		self.rootCost = CostFunction(marker)
+		
+		length = Cost.boardLength
+		ChoiceNode.setLength(length)
 		
 		rootNode = Node(-1, -1)		# root has no choice
 
@@ -31,8 +31,8 @@ class DFS(object):
 		global length
 		
 		#Add up to board children to parent
-		for i in range(0, self.length):
-			for j in range(0, self.length):
+		for i in range(0, length):
+			for j in range(0, length):
 			
 				#My piece on board
 				if parentCost.max[i][j] != Cost.illegalSpace:

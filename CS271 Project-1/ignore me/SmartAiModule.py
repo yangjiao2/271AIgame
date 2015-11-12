@@ -7,17 +7,15 @@ import DepthFirstSearch
 
 
 #Make  a super class called AI? for inheritance?
-class Ai2():
+class Ai2(object):
 	
 	#=======================================================================
 	#				Initialization
 	#=======================================================================
-	def __init__(self, marker, board, length):
+	def __init__(self, marker):
 		self.marker = marker
 		self.bestMoveX = -1
 		self.bestMoveY = -1
-		self.board = board
-		self.length = length
 		
 	def make_move(self):
 		self.get_best_move()
@@ -28,7 +26,7 @@ class BasicAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def get_best_move(self):
-		dfs = DFS(self.marker, self.board, self.length)
+		dfs = DFS(self.marker)
 		cost = dfs.rootCost
 		cost.findBestQuickMove()
 		self.bestMoveX = cost.bestX

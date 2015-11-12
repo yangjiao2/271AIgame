@@ -1,35 +1,31 @@
-from SmartAiModule import BasicAi
-import GameBoard
-import SmartAiModule
+import connectfourgame, SmartAiModule,Gui
 
-#=======================================================================
-#				MAIN
-#=======================================================================
-#Debugging method to print stuff
-if False:
-	for i in range(0, boardLength):
-		for j in range(0, boardLength):
-			takeTile(i, j, 1)
-			#printMatrix(freeTiles)
-			if isGameOver == True:
-					break
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+LENGTH = 8
 
-		if isGameOver == True:
-			break
-
-#End Debug! Here is the game!
-a = BasicAi(1)
-b = BasicAi(2)
-
-while(GameBoard.isGameOver == False):
-	a.takeDumbMove()
-	print "Player 1: Takes Turn: [%d, %d]" % (a.bestMoveX, a.bestMoveY)
-	GameBoard.printMatrix(GameBoard.freeTiles)
-	if (GameBoard.isGameOver == True):
-		break
-		
-	b.takeDumbMove()
-	print "Player 2: Takes Turn: [%d, %d]" % (b.bestMoveX, b.bestMoveY)
-	GameBoard.printMatrix(GameBoard.freeTiles)
+def main():
+	app = QtGui.QApplication(sys.argv)
+	puzzle = Puzzle(LENGTH)
+	sys.exit(app.exec_())
 	
-#endWhile
+if __name__ == "__main__":
+	cfg = connectfourgame.connectfourgame(8,8) # 8 * 8 
+	puzzle = Gui.Puzzle(LENGTH)
+	cfg.print_board()
+	row = 0
+	col = 3
+	while(not cfg._check_winner_exist() and cfg.check_within_boundary(col, row)):
+		# TODO: 
+		# determine move, check if the tile is free, make move
+		# below is a sample code, does only drop and print
+		
+		(row, col) = smartai.Ai2(cfg.board, cfg.turn).make_move()
+		if (cfg.check_empty(col,row)):
+			cfg.drop_piece(col,row)
+			row = row + 1
+			cfg.print_board()
+
+
+
