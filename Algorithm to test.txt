@@ -1,0 +1,8 @@
+1. Best Max only, best min only! (complete!)
+2. cost = Max - min
+*test time complex if remove bounding
+3. dumb ai Random (needs revisit)
+4. dumb ai cover center (needs revisit)
+5. versus player
+
+*add timer to track how long each AI move takes
