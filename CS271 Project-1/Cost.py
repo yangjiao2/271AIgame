@@ -1,5 +1,5 @@
 
-
+from Gui import NONE, PLAYER1, PLAYER2
 import random
 
 illegalSpace = -999
@@ -16,7 +16,7 @@ class CostFunction(object):
 #=======================================================================	
 	def __init__(self, marker, board, length):
 	#	def __init__(self, marker, GameBoard):
-		global boardLength
+		global boardLength, NONE, PLAYER2, PLAYER1
 		self.marker = marker
 		self.board  = board
 		self.boardLength = length
@@ -32,7 +32,7 @@ class CostFunction(object):
 					self.upMaxValues(i, j, 1)
 				
 				#Empty Space on board
-				elif self.board[i][j] == 0:
+				elif self.board[i][j] == NONE:
 				
 					#Empty Space not on sides of board is better
 					if (i > 0) and i < (self.boardLength - 1):
