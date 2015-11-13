@@ -1,10 +1,10 @@
 #Keep tracks of which moves are still legal, AI and Players can search the lists
 #legalMovesY and legalMovesX for easily getting a list of children nodes to init
-import GameBoard
+import Gui
 
 
 #Static variables
-boardLength = GameBoard.boardLength
+boardLength = Gui.LENGTH
 isPlayerError = False
 
 #the previous move!

@@ -74,7 +74,7 @@ class Puzzle(QtGui.QWidget):
 			self.chessboard.drop_piece(row-1,column-1)
 		else:
 			print "out of boundary"
-		if self.chessboard._check_winner_exist():
+		if self.chessboard.check_winner_exist():
 			print "winner"
 		
 def main():

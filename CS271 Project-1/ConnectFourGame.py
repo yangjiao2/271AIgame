@@ -35,7 +35,7 @@ class ConnectFourGame:
         if type(row) != int or not 0 <= row < self.BOARD_ROWS:
             raise ValueError('column number must be int between 0 and {}'.format(self.BOARD_COLUMNS - 1))
 
-    def _check_winner_exist(self):
+    def check_winner_exist(self):
         global NONE, PLAYER1, PLAYER2
         if self.winning_player() != NONE:
             return True

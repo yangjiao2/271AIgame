@@ -1,6 +1,5 @@
 from Cost import CostFunction
 from DepthFirstSearch import DFS
-import GameBoard
 import legalMovesList
 import DepthFirstSearch
 #import Cost
@@ -33,9 +32,6 @@ class BasicAi(Ai2):
 		cost.findBestQuickMove()
 		self.bestMoveX = cost.bestX
 		self.bestMoveY = cost.bestY
-	
-		#note to self get rid of this call in dumb ai
-		#self.takeMove(cost.bestX, cost.bestY)
 		cost.close()
 
 class AdvAi(Ai2):

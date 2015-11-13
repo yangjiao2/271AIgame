@@ -14,14 +14,14 @@ class DFS(object):
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
-	def __init__(self, marker, board, length):
+	def __init__(self, marker, board, boardLength):
 		global depth
 
 		self.marker = marker
 		self.rootCost = CostFunction(marker, board, length)
-		self.length = length
+		self.boardLength = boardLength
 		self.board = board
-		ChoiceNode.setLength(self.length)
+		ChoiceNode.setLength(length)
 		
 		rootNode = Node(-1, -1)		# root has no choice
 
@@ -31,8 +31,8 @@ class DFS(object):
 		global length
 		
 		#Add up to board children to parent
-		for i in range(0, self.length):
-			for j in range(0, self.length):
+		for i in range(0, self.boardLength):
+			for j in range(0, self.boardLength):
 			
 				#My piece on board
 				if parentCost.max[i][j] != Cost.illegalSpace:

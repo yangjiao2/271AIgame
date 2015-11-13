@@ -32,7 +32,7 @@ class CostFunction(object):
 					self.upMaxValues(i, j, 1)
 				
 				#Empty Space on board
-				elif self.board.freeTiles[i][j] == 0:
+				elif self.board[i][j] == 0:
 				
 					#Empty Space not on sides of board is better
 					if (i > 0) and i < (self.boardLength - 1):
