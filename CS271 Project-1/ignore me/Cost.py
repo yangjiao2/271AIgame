@@ -1,5 +1,5 @@
 
-from Gui import NONE, PLAYER1, PLAYER2
+import GameBoard
 import random
 
 illegalSpace = -999
@@ -14,29 +14,28 @@ class CostFunction(object):
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
-	def __init__(self, marker, board, length):
+	def __init__(self, marker):
 	#	def __init__(self, marker, GameBoard):
-		global boardLength, NONE, PLAYER2, PLAYER1
+		global boardLength
 		self.marker = marker
-		self.board  = board
-		self.boardLength = length
-		self.max = [[0] * self.boardLength for i in range(self.boardLength)]
-		self.min = [[0] * self.boardLength for i in range(self.boardLength)]
-		for i in range(0, self.boardLength):
-			for j in range(0, self.boardLength):
+		boardLength = GameBoard.boardLength
+		self.max = [[0] * boardLength for i in range(boardLength)]
+		self.min = [[0] * boardLength for i in range(boardLength)]
+		for i in range(0, boardLength):
+			for j in range(0, boardLength):
 			
 				#My piece on board
-				if self.board[i][j] == marker:
+				if GameBoard.freeTiles[i][j] == marker:
 					self.max[i][j] = illegalSpace
 					self.min[i][j]   = illegalSpace
 					self.upMaxValues(i, j, 1)
 				
 				#Empty Space on board
-				elif self.board[i][j] == NONE:
+				elif GameBoard.freeTiles[i][j] == 0:
 				
 					#Empty Space not on sides of board is better
-					if (i > 0) and i < (self.boardLength - 1):
-						if (j > 0) and j < (self.boardLength - 1):
+					if (i > 0) and i < (boardLength - 1):
+						if (j > 0) and j < (boardLength - 1):
 							self.max[i][j] = self.max[i][j] + 1
 							self.min[i][j] = self.min[i][j] + 1
 				
@@ -70,8 +69,8 @@ class CostFunction(object):
 	def findBestQuickValue(self, matrix):
 		bestValue = -1
 		
-		for i in range(0, self.boardLength):
-			for j in range(0, self.boardLength):
+		for i in range(0, boardLength):
+			for j in range(0, boardLength):
 				if matrix[i][j] == illegalSpace:
 					continue
 					
@@ -109,7 +108,7 @@ class CostFunction(object):
 		self.upValues(x, y, value, self.min)
 					
 	def upValues(self, x, y, value, matrix):
-		for i in range(0, self.boardLength):
+		for i in range(0, boardLength):
 			for j in range(0, boardLength):
 				if matrix[i][j] == illegalSpace:
 					continue

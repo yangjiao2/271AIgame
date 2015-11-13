@@ -5,6 +5,10 @@ from math import *
 import random,time
 import Queue
 import ConnectFourGame
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+LENGTH = 8
 
 # pvp, cvp, turn, (row, column)
 
@@ -12,6 +16,7 @@ class Puzzle(QtGui.QWidget):
 	def __init__(self,length):
 		super(Puzzle, self).__init__()
 		self.chessboard = ConnectFourGame.ConnectFourGame(length,length)
+		#self.vstype = VStype
 		self.initUI()
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
@@ -55,20 +60,26 @@ class Puzzle(QtGui.QWidget):
 		qp.setPen(color)
 		for i in range(0,8):
 			for j in range(0,8):
-				if self.chessboard.board[j][i] == '.':
+				if self.chessboard.board[j][i] == NONE:
 					qp.setBrush(QtGui.QColor(255,0,0))
-				elif self.chessboard.board[j][i] == 'x':
+				elif self.chessboard.board[j][i] == PLAYER1:
 					qp.setBrush(QtGui.QColor(0,255,0))
-				elif self.chessboard.board[j][i] == 'o':
+				elif self.chessboard.board[j][i] == PLAYER2:
 					qp.setBrush(QtGui.QColor(0,0,255))
 				qp.drawRect(10+20*j,10+i*20,20,20)
 	def turn(self,qp):
 		row = int(self.row.text())
 		column = int(self.column.text())
-		self.chessboard.drop_piece(row-1,colum-1)
+		if self.chessboard.check_within_boundary(column, row):
+			self.chessboard.drop_piece(row-1,column-1)
+		else:
+			print "out of boundary"
+		if self.chessboard.check_winner_exist():
+			print "winner"
+		
 def main():
 	app = QtGui.QApplication(sys.argv)
-	puzzle = Puzzle()
+	puzzle = Puzzle(LENGTH)
 	sys.exit(app.exec_())
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__":
+        main()
