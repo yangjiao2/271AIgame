@@ -60,11 +60,11 @@ class Puzzle(QtGui.QWidget):
 		qp.setPen(color)
 		for i in range(0,8):
 			for j in range(0,8):
-				if self.chessboard.board[j][i] == '.':
+				if self.chessboard.board[j][i] == NONE:
 					qp.setBrush(QtGui.QColor(255,0,0))
-				elif self.chessboard.board[j][i] == 'x':
+				elif self.chessboard.board[j][i] == PLAYER1:
 					qp.setBrush(QtGui.QColor(0,255,0))
-				elif self.chessboard.board[j][i] == 'o':
+				elif self.chessboard.board[j][i] == PLAYER2:
 					qp.setBrush(QtGui.QColor(0,0,255))
 				qp.drawRect(10+20*j,10+i*20,20,20)
 	def turn(self,qp):
