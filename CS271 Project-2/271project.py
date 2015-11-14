@@ -6,8 +6,42 @@ import random,time
 import Queue
 import ConnectFourGame
 
+global VSMode = -1
 # pvp, cvp, turn, (row, column)
-
+class Mode(QtgUI.QWidget):
+	def __init__(self,length):
+		super(Puzzle, self).__init__()
+		self.VSMode = -1
+		self.initUI()
+	def initUI(self):
+		self.setGeometry(300, 300, 700, 500)
+		self.setWindowTitle('ModesSelection')
+		gridlayout = QtGui.QGridLayout()
+		button1 = QtGui.QPushButton( "Player V.S. Player",self)
+		gridlayout.addWidget(button1,60,0,10,10)
+		button2 = QtGui.QPushButton("Player V.S. Computer",self)
+		gridlayout.addWidget(button2,60,20,10,10)
+		button3 = QtGui.QPushButton( "Computer V.S. Computer",self)
+		gridlayout.addWidget(button3,60,40,10,10)
+		button4 = QtGui.QPushButton("quit",self)
+		gridlayout.addWidget(button4,60,60,10,10)
+		self.setLayout(gridlayout)
+		button1.clicked.connect(self.mode1)
+		button2.clicked.connect(self.mode2)
+		button3.clicked.connect(self.mode3)
+		button4.clicked.connect(self.close)
+	def paintEvent(self,event=None):
+		qp = QtGui.QPainter()
+		qp.begin(self)
+		qp.end()
+	def mode1(self):
+		self.VSMode = 1
+	def mode2(self):
+		self.VSMode = 2
+	def mode3(self):
+		slef.VSMode = 3
+		
+		
 class Puzzle(QtGui.QWidget):
 	def __init__(self,length):
 		super(Puzzle, self).__init__()
@@ -68,7 +102,7 @@ class Puzzle(QtGui.QWidget):
 		self.chessboard.drop_piece(row-1,colum-1)
 def main():
 	app = QtGui.QApplication(sys.argv)
-	puzzle = Puzzle()
+	puzzle = Mode()
 	sys.exit(app.exec_())
 if __name__ == '__main__':
 	main()
