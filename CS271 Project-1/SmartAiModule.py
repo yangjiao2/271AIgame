@@ -4,7 +4,6 @@ import legalMovesList
 import DepthFirstSearch
 #import Cost
 
-
 #Make  a super class called AI? for inheritance?
 class Ai2():
 	
@@ -23,16 +22,25 @@ class Ai2():
 		return (self.bestMoveX, self.bestMoveY)
 		
 class BasicAi(Ai2):
+	
+	firstMove = True
+	
 	#=======================================================================
 	#				Functions
 	#=======================================================================
 	def get_best_move(self):
+		global firstMove
 		dfs = DFS(self.marker, self.board, self.length)
-		cost = dfs.rootCost
-		cost.findBestQuickMove()
-		self.bestMoveX = cost.bestX
-		self.bestMoveY = cost.bestY
-		cost.close()
+		#Just go to depth 1 for first move
+		if firstMove:
+			cost = dfs.rootCost
+			cost.findBestQuickMove()
+			self.bestMoveX = cost.bestX
+			self.bestMoveY = cost.bestY
+			cost.close()
+			firstMove = False
+		else:
+			self.bestMoveX, self.bestMoveY = dfs.compute()
 
 class AdvAi(Ai2):
 	#=======================================================================

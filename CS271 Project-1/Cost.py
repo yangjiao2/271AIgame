@@ -6,16 +6,16 @@ illegalSpace = -999
 boardLength  = 0
 MOVES_TO_WIN = 4
 
+#How many best nodes to track?
+maxBranchingFactor = 16
+
 class CostFunction(object):
 
-#READ ME!
-#This requires boardLength + Board [][]! Can be taken statically or by parameter
 
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
 	def __init__(self, marker, board, length):
-	#	def __init__(self, marker, GameBoard):
 		global boardLength, NONE, PLAYER2, PLAYER1
 		self.marker = marker
 		self.board  = board
@@ -28,7 +28,7 @@ class CostFunction(object):
 				#My piece on board
 				if self.board[i][j] == marker:
 					self.max[i][j] = illegalSpace
-					self.min[i][j]   = illegalSpace
+					self.min[i][j] = illegalSpace
 					self.upMaxValues(i, j, 1)
 				
 				#Empty Space on board
@@ -48,10 +48,26 @@ class CostFunction(object):
 					
 		self.bestX = -1
 		self.bestY = -1	
+		
+		#So we don't expand too many nodes, track some min value to expand
+		self.leastMax = 2
+		self.leastMin = 2
 				
 #=======================================================================
 #	METHOD TO FIND BEST MOVE
 #=======================================================================					
+	#Make quick adjustment to board for 1 single move
+	def makeMove(maxOrMin, i, j):
+		self.max[i][j] = illegalSpace
+		self.min[i][j] = illegalSpace
+		if maxOrMin:
+			self.upMaxValues(i, j, 1)
+		else:
+			self.upMinValues(i, j, 1)
+			
+		self.leastMax = _findBestSlowValue(self.max)
+		self.leastMin = _findBestSlowValue(self.min)	
+	
 	def findBestQuickMove(self):
 		#First see if min can win...
 		bestMin = self.findBestQuickValue(self.min)
@@ -65,7 +81,13 @@ class CostFunction(object):
 		if bestMin >= MOVES_TO_WIN and bestMin > bestMax:
 			self.bestX = bestMinX
 			self.bestY = bestMinY
-		#Otherwise, default will keep Max Best	
+		#Otherwise, default will keep Max Best
+
+	def findBestMove(self, maxOrMin):
+		if maxOrMin:
+			return findBestQuickValue (self.max)
+		else:
+			return findBestQuickValue (self.min)
 	
 	def findBestQuickValue(self, matrix):
 		bestValue = -1
@@ -94,6 +116,40 @@ class CostFunction(object):
 		self.bestY = yList[index]
 		
 		return bestValue
+		
+	#Used to find the min value to search in branching
+	#will not open nodes below a threshold
+	def _findBestSlowValue(self, matrix):
+		global maxBranchingFactor
+		valueList = [0] * maxBranchingFactor
+		
+		for i in range(0, self.boardLength):
+			for j in range(0, self.boardLength):
+				if matrix[i][j] == illegalSpace:
+					continue
+					
+				absValue = abs(matrix[i][j])
+
+				#replace min value
+				min = findMin(valueList)
+				if absValue > min:
+					replaceMin(valueList, min, absValue)
+		
+		#Return the lowest acceptable value
+		return findMin(valueList)
+
+	def _findMin(self, valueList):
+		min  = 999
+		for i in range(0, len(valueList)):
+			if valueList[i] < min:
+				min = valueList[i]
+		return min
+
+	def _replaceMin(self, valueList, oldValue, newValue):
+		for i in range(0, len(valueList)):
+			if valueList[i] == oldValue:
+				valueList[i] = newValue
+				break
 	
 	def close(self):
 		self.max = -1

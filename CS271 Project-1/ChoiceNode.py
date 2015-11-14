@@ -13,7 +13,8 @@ class Node(object):
 		self.y = y
 		
 		# Value of this node
-		self.value = 0
+		self.MaxValue = 0
+		self.MinValue = 0
 		
 		#points to end of child list, is current count
 		self.size  = 0
@@ -22,7 +23,7 @@ class Node(object):
 	
 	#Debug printing
 	def description(self):
-		print self.x, self.y, self.value
+		print self.x, self.y, self.MaxValue, self.MinValue
 	
 	# add child to list
 	def addChild(self, child):
@@ -30,9 +31,19 @@ class Node(object):
 		self.size = self.size + 1
 		
 	#set value	
-	def setValue(self, value):
-		self.value = value
+	def setMaxValue(self, value):
+		self.MaxValue = value
 		
+	def setMinValue(self, value):
+		self.MinValue = value
+	
+	def copyValues(self, max, min):
+		
+		self.MaxValue = max
+		self.MinValue = min
+		
+	def copyNodeValues(self, node):
+		copyValues(node.MaxValue, node.MinValue)	
 
 #root = Node(3, 4)
 #root.description()		
