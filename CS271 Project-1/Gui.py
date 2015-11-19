@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui, QtCore
-from numpy import *
+#from numpy import *
 from math import *
 import random,time
 import Queue
