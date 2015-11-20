@@ -11,6 +11,7 @@ PLAYER2 = 'o'
 LENGTH = 8
 VSMode = 1
 
+
 # pvp, cvp, turn, (row, column)
 class Modeselect(QtGui.QWidget):
 	def __init__(self):
@@ -47,11 +48,12 @@ class Modeselect(QtGui.QWidget):
 		VSMode = 3
 		self.puzzle = Puzzle(LENGTH)
 		#self.close()
-
+		
 class Puzzle(QtGui.QWidget):
 	def __init__(self,length):
 		super(Puzzle, self).__init__()
 		self.chessboard = ConnectFourGame.ConnectFourGame(length,length)
+		self.length = length
 		self.VSMode = VSMode
 		self.initUI()
 	def initUI(self):
@@ -92,8 +94,8 @@ class Puzzle(QtGui.QWidget):
 		color = QtGui.QColor(0,0,0)
 		color.setNamedColor('#d4d4d4')
 		qp.setPen(color)
-		for i in range(0,8):
-			for j in range(0,8):
+		for i in range(0,self.length):
+			for j in range(0,self.length):
 				if self.chessboard.board[j][i] == NONE:
 					qp.setBrush(QtGui.QColor(255,0,0))
 				elif self.chessboard.board[j][i] == PLAYER1:
@@ -104,13 +106,13 @@ class Puzzle(QtGui.QWidget):
 	def turn(self,qp):
 		row = int(self.row.text())
 		column = int(self.column.text())
-		if self.chessboard.check_within_boundary(column, row):
+		if self.chessboard.check_within_boundary(column-1, row-1):
 			self.chessboard.drop_piece(row-1,column-1)
 		else:
 			print "out of boundary"
 		if self.chessboard.check_winner_exist():
 			print "winner"
-		
+
 def main():
 	app = QtGui.QApplication(sys.argv)
 	mode = Modeselect()
