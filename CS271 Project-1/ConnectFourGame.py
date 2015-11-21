@@ -4,7 +4,7 @@ This class is a module for implementations in the connectfour game.
 
 
 from Gui import NONE, PLAYER1, PLAYER2
-
+import SmartAiModule
 
 class ConnectFourGame:
     
@@ -16,6 +16,7 @@ class ConnectFourGame:
         self.turn = PLAYER1
         self.winner = NONE
         self.board = self._new_game_board()
+        self.ai = 0
 
     def _new_game_board(self):
         global NONE, PLAYER1, PLAYER2
@@ -70,6 +71,14 @@ class ConnectFourGame:
         else:
             self.board[column_number][row_number] = self.turn
             self._opposite_turn()
+
+    def ask_ai_drop_piece(self, column_number, row_number):
+        '''ask ai to drop a piece '''
+        self.ai = AdvAi2(self.turn, self.board, len(self.board))
+        self.get_best_move()
+        (row, col) = self.make_move()
+        self.drop_piece(col, row)
+
 
     def winning_player(self):
         ''' get winnner, if no winner, return NONE '''

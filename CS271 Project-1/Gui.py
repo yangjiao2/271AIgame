@@ -113,6 +113,7 @@ class Puzzle(QtGui.QWidget):
 		if self.chessboard.check_winner_exist():
 			print "winner"
 
+
 def main():
 	app = QtGui.QApplication(sys.argv)
 	mode = Modeselect()
