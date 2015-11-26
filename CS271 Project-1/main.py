@@ -1,6 +1,6 @@
-# from SmartAiModule import BasicAi
-# import GameBoard
-# import SmartAiModule
+from SmartAiModule import BasicAi
+import ConnectFourGame
+import SmartAiModule
 
 # #=======================================================================
 # #				MAIN
@@ -38,14 +38,34 @@
 
 
 if __name__ == "__main__":
-	cfg = ConnectFourGame.ConnectFourGame(8,8) # 8 * 8 
-	cfg.print_board()
-	while(not cfg.check_winner_exist()):
-		# TODO: 
-		# determine move, check if the tile is free, make move
-		# below is a sample code, does only drop and print
-	
-		cfg.ask_ai_drop_piece()
-		cfg.print_board()
-	
+        # test for computer vs. comptuter
+        # for human vs. computer, human drop their pieces first
+        # can change Ai in ConnectFourGame __init__
+        mode = 3
+        cfg = ConnectFourGame.ConnectFourGame(8,8,mode) # 8 * 8
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
+        print "-------------------"
+##        while(not cfg.check_winner_exist()):
+        cfg.drop_piece(1, 1)
+        cfg.print_board()
 		

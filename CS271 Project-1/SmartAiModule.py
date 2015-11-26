@@ -10,7 +10,7 @@ class Ai2():
 	#=======================================================================
 	#				Initialization
 	#=======================================================================
-	def __init__(self, marker, firstMove):
+	def __init__(self, marker, board, length, firstMove):
 		self.marker = marker
 		self.bestMoveX = -1
 		self.bestMoveY = -1
@@ -18,8 +18,8 @@ class Ai2():
 		self.length = length
 		self.firstMove = firstMove
 		
-	def make_move(self):
-		self.get_best_move()
+	def make_move(self, board, length):
+		self.get_best_move(board, length)
 		return (self.bestMoveX, self.bestMoveY)
 		
 class BasicAi(Ai2):
@@ -28,7 +28,7 @@ class BasicAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 
 		dfs = DFS(self.marker, board, length)
 		#Just go to depth 1 for first move
@@ -46,14 +46,14 @@ class AdvAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 		pass
 		
 class RandomAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 		move = random.randint(0, legalMovesList.legalMovesAvailable - 1)
 		legalMovesList.takeTileByIndex(move, self.marker)
 		self.bestMoveX = legalMovesList.prevX
@@ -63,7 +63,7 @@ class MidAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 		move = legalMovesList.legalMovesAvailable / 2
 		legalMovesList.takeTileByIndex(move, self.marker)
 		self.bestMoveX = legalMovesList.prevX

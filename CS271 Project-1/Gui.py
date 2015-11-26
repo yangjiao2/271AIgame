@@ -38,24 +38,26 @@ class Modeselect(QtGui.QWidget):
 		self.show()
 	def mode1(self):
 		VSMode = 1
-		self.puzzle = Puzzle(LENGTH)
+		self.puzzle = Puzzle(LENGTH, 1)
 		#self.close()
 	def mode2(self):
 		VSMode = 2
-		self.puzzle = Puzzle(LENGTH)
+		self.puzzle = Puzzle(LENGTH, 2)
 		#self.close()
 	def mode3(self):
 		VSMode = 3
-		self.puzzle = Puzzle(LENGTH)
+		self.puzzle = Puzzle(LENGTH, 3)
 		#self.close()
 		
-class Puzzle(QtGui.QWidget):
+class Puzzle(QtGui.QWidget, mode):
 	def __init__(self,length):
 		super(Puzzle, self).__init__()
-		self.chessboard = ConnectFourGame.ConnectFourGame(length,length)
+		self.chessboard = ConnectFourGame.ConnectFourGame(length,length, mode)
 		self.length = length
 		self.VSMode = VSMode
 		self.initUI()
+		self.mode = mode
+		
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
 		self.setWindowTitle('Puzzle')
