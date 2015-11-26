@@ -3,7 +3,7 @@ from DepthFirstSearch import DFS
 # import legalMovesList
 import DepthFirstSearch
 #import Cost
-
+import random
 #Make  a super class called AI? for inheritance?
 class Ai2():
 	
@@ -20,6 +20,7 @@ class Ai2():
 		
 	def make_move(self, board, length):
 		self.get_best_move(board, length)
+		self.firstMove = False
 		return (self.bestMoveX, self.bestMoveY)
 		
 class BasicAi(Ai2):
@@ -29,7 +30,6 @@ class BasicAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def get_best_move(self, board, length):
-
 		dfs = DFS(self.marker, board, length)
 		#Just go to depth 1 for first move
 		if self.firstMove:
@@ -53,11 +53,17 @@ class RandomAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
+	def __init__(self, marker, board, length, firstMove):
+                Ai2. __init__(self, marker, board, length, firstMove)
+                self.ramdomMoveList = [0, 1, 2, 3, 4, 5, 6, 7]
 	def get_best_move(self, board, length):
-		move = random.randint(0, legalMovesList.legalMovesAvailable - 1)
-		legalMovesList.takeTileByIndex(move, self.marker)
-		self.bestMoveX = legalMovesList.prevX
-		self.bestMoveY = legalMovesList.prevY
+                row = random.choice(self.ramdomMoveList)
+                col = random.choice(self.ramdomMoveList)
+                while (board[row][col])
+                        row = random.choice(self.ramdomMoveList)
+                        col = random.choice(self.ramdomMoveList)
+		self.bestMoveX = col 
+		self.bestMoveY = row
 
 class MidAi(Ai2):
 	#=======================================================================
