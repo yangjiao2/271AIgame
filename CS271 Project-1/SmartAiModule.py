@@ -1,6 +1,6 @@
 from Cost import CostFunction
 from DepthFirstSearch import DFS
-import legalMovesList
+# import legalMovesList
 import DepthFirstSearch
 #import Cost
 
@@ -10,12 +10,13 @@ class Ai2():
 	#=======================================================================
 	#				Initialization
 	#=======================================================================
-	def __init__(self, marker, board, length):
+	def __init__(self, marker, firstMove):
 		self.marker = marker
 		self.bestMoveX = -1
 		self.bestMoveY = -1
 		self.board = board
 		self.length = length
+		self.firstMove = firstMove
 		
 	def make_move(self):
 		self.get_best_move()
@@ -23,22 +24,21 @@ class Ai2():
 		
 class BasicAi(Ai2):
 	
-	firstMove = True
-	
+
 	#=======================================================================
 	#				Functions
 	#=======================================================================
 	def get_best_move(self):
-		global firstMove
-		dfs = DFS(self.marker, self.board, self.length)
+
+		dfs = DFS(self.marker, board, length)
 		#Just go to depth 1 for first move
-		if firstMove:
+		if self.firstMove:
 			cost = dfs.rootCost
 			cost.findBestQuickMove()
 			self.bestMoveX = cost.bestX
 			self.bestMoveY = cost.bestY
 			cost.close()
-			firstMove = False
+
 		else:
 			self.bestMoveX, self.bestMoveY = dfs.compute()
 

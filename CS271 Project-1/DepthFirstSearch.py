@@ -21,10 +21,10 @@ class DFS(object):
 		global depth
 
 		self.marker = marker
-		self.rootCost = CostFunction(marker, board, length)
+		self.rootCost = CostFunction(marker, board, boardLength)
 		self.boardLength = boardLength
 		self.board = board
-		ChoiceNode.setLength(length)
+		ChoiceNode.setLength(self.boardLength)
 
 	def _addChildren(self, parentNode, parentCost, maxOrMin, depth):
 		global length
@@ -57,7 +57,7 @@ class DFS(object):
 					#do not expand on last depth
 					if depth > 1:
 						self.addChildren(newNode, newCost, not maxOrMin, depth - 1)
-					else 
+					else:
 						newNode.setMaxValue(newCost.findBesMove(True))
 						newNode.setMinValue(newCost.findBesMove(False))
 						

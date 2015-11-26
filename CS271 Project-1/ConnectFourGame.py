@@ -3,8 +3,14 @@ This class is a module for implementations in the connectfour game.
 '''
 
 
-from Gui import NONE, PLAYER1, PLAYER2
+# from Gui import NONE, PLAYER1, PLAYER2
 import SmartAiModule
+from SmartAiModule import BasicAi
+
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+
 
 class ConnectFourGame:
     
@@ -17,6 +23,7 @@ class ConnectFourGame:
         self.winner = NONE
         self.board = self._new_game_board()
         self.ai = 0
+        self.firstMove = True
 
     def _new_game_board(self):
         global NONE, PLAYER1, PLAYER2
@@ -72,12 +79,13 @@ class ConnectFourGame:
             self.board[column_number][row_number] = self.turn
             self._opposite_turn()
 
-    def ask_ai_drop_piece(self, column_number, row_number):
+    def ask_ai_drop_piece(self):
         '''ask ai to drop a piece '''
-        self.ai = AdvAi2(self.turn, self.board, len(self.board))
-        self.get_best_move()
-        (row, col) = self.make_move()
+        self.ai = BasicAi(self.turn, self.board, len(self.board), self.firstMove)
+        self.ai.get_best_move()
+        (row, col) = self.ai.make_move()
         self.drop_piece(col, row)
+        self.firstMove = False
 
 
     def winning_player(self):
