@@ -14,18 +14,29 @@ class Ai2():
 		self.marker = marker
 		self.bestMoveX = -1
 		self.bestMoveY = -1
-		self.board = board
-		self.length = length
 		self.firstMove = firstMove
 		
 	def make_move(self, board, length):
 		self.get_best_move(board, length)
 		self.firstMove = False
-		return (self.bestMoveX, self.bestMoveY)
+		return (self.bestMoveY, self.bestMoveX)
 		
 class BasicAi(Ai2):
-	
+	#=======================================================================
+	#				Functions
+	#=======================================================================
+	def get_best_move(self, board, length):
+		dfs = DFS(self.marker, board, length)
+		cost = dfs.rootCost
+		cost.findBestQuickMove()
+		self.bestMoveX = cost.bestX
+		self.bestMoveY = cost.bestY
+		print self.marker
+		print self.bestMoveY
+		print self.bestMoveX 
+		cost.close()
 
+class AdvAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
@@ -42,12 +53,23 @@ class BasicAi(Ai2):
 		else:
 			self.bestMoveX, self.bestMoveY = dfs.compute()
 
-class AdvAi(Ai2):
+class TrueAlphaAi(Ai2):
+	
 	#=======================================================================
 	#				Functions
 	#=======================================================================
 	def get_best_move(self, board, length):
-		pass
+		#Need to create a new Cost2 function!
+		dfs = DFS(self.marker, board, length)
+		#Just go to depth 1 for first move
+		if self.firstMove:
+			cost = dfs.rootCost
+			cost.findBestQuickMove()
+			self.bestMoveX = cost.bestX
+			self.bestMoveY = cost.bestY
+			cost.close()
+		else:
+			self.bestMoveX, self.bestMoveY = dfs.compute()
 		
 class RandomAi(Ai2):
 	#=======================================================================
@@ -59,7 +81,7 @@ class RandomAi(Ai2):
 	def get_best_move(self, board, length):
                 row = random.choice(self.ramdomMoveList)
                 col = random.choice(self.ramdomMoveList)
-                while (board[row][col])
+                while (board[row][col]):
                         row = random.choice(self.ramdomMoveList)
                         col = random.choice(self.ramdomMoveList)
 		self.bestMoveX = col 

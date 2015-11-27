@@ -20,6 +20,10 @@ class Node(object):
 		self.size  = 0
 		
 		self.children = [None] * (length * length)
+		
+		#Alpha-Beta pruning
+		self.alpha = -999
+		self.beta = 999
 	
 	#Debug printing
 	def description(self):
@@ -38,12 +42,18 @@ class Node(object):
 		self.MinValue = value
 	
 	def copyValues(self, max, min):
-		
 		self.MaxValue = max
 		self.MinValue = min
 		
 	def copyNodeValues(self, node):
-		copyValues(node.MaxValue, node.MinValue)	
+		self.copyValues(node.MaxValue, node.MinValue)	
+		
+	def setAlpha(self, value):
+		self.alpha = value
 
+	def setBeta(self, value):
+		self.beta = value		
+		
 #root = Node(3, 4)
 #root.description()		
+

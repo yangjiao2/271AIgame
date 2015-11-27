@@ -45,27 +45,8 @@ if __name__ == "__main__":
         cfg = ConnectFourGame.ConnectFourGame(8,8,mode) # 8 * 8
         cfg.print_board()
         print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
+        while(not cfg.check_winner_exist()):
+                cfg.drop_piece(2, 7)
+                cfg.print_board()
         print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
-        print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
-        print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
-        print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
-        print "-------------------"
-##        while(not cfg.check_winner_exist()):
-        cfg.drop_piece(1, 1)
-        cfg.print_board()
-		
+

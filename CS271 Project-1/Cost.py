@@ -7,7 +7,6 @@ PLAYER2 = 'o'
 import random
 
 illegalSpace = -999
-boardLength  = 0
 MOVES_TO_WIN = 4
 
 #How many best nodes to track?
@@ -20,7 +19,8 @@ class CostFunction(object):
 #	INITIALIZATION
 #=======================================================================	
 	def __init__(self, marker, board, length):
-		global boardLength, NONE, PLAYER2, PLAYER1
+		global NONE, PLAYER2, PLAYER1
+		self.alphaBetaTrue = False
 		self.marker = marker
 		self.board  = board
 		self.boardLength = length
@@ -61,7 +61,7 @@ class CostFunction(object):
 #	METHOD TO FIND BEST MOVE
 #=======================================================================					
 	#Make quick adjustment to board for 1 single move
-	def makeMove(maxOrMin, i, j):
+	def makeMove(self, maxOrMin, i, j):
 		self.max[i][j] = illegalSpace
 		self.min[i][j] = illegalSpace
 		if maxOrMin:
@@ -69,8 +69,8 @@ class CostFunction(object):
 		else:
 			self.upMinValues(i, j, 1)
 			
-		self.leastMax = _findLowerBoundValue(self.max)
-		self.leastMin = _findLowerBoundValue(self.min)	
+		self.leastMax = self._findLowerBoundValue(self.max)
+		self.leastMin = self._findLowerBoundValue(self.min)	
 	
 	def findBestQuickMove(self):
 		#First see if min can win...
@@ -89,9 +89,9 @@ class CostFunction(object):
 
 	def findBestMove(self, maxOrMin):
 		if maxOrMin:
-			return findBestQuickValue (self.max)
+			return self.findBestQuickValue (self.max)
 		else:
-			return findBestQuickValue (self.min)
+			return self.findBestQuickValue (self.min)
 	
 	def findBestQuickValue(self, matrix):
 		bestValue = -1
@@ -135,12 +135,12 @@ class CostFunction(object):
 				absValue = abs(matrix[i][j])
 
 				#replace min value
-				min = findMin(valueList)
+				min = self._findMin(valueList)
 				if absValue > min:
-					_replaceMin(valueList, min, absValue)
+					self._replaceMin(valueList, min, absValue)
 		
 		#Return the lowest acceptable value
-		return _findMin(valueList)
+		return self._findMin(valueList)
 
 	def _findMin(self, valueList):
 		min  = 999
@@ -170,7 +170,7 @@ class CostFunction(object):
 					
 	def upValues(self, x, y, value, matrix):
 		for i in range(0, self.boardLength):
-			for j in range(0, boardLength):
+			for j in range(0, self.boardLength):
 				if matrix[i][j] == illegalSpace:
 					continue
 			

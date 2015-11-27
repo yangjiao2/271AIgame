@@ -11,12 +11,12 @@ maxBranchingFactor = 16
 
 class CostFunction(object):
 
-
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================	
 	def __init__(self, marker, board, length):
 		global boardLength, NONE, PLAYER2, PLAYER1
+		self.alphaBetaTrue = True
 		self.marker = marker
 		self.board  = board
 		self.boardLength = length
@@ -60,17 +60,17 @@ class CostFunction(object):
 		else:
 			self.upMinValues(i, j, 1)
 			
-		self.leastMax = _findLowerBoundValue(True)
-		self.leastMin = _findLowerBoundValue(False)
+		self.leastMax = self._findLowerBoundValue(True)
+		self.leastMin = self._findLowerBoundValue(False)
 	
 	def findBestQuickMove(self):
 		self._findBestQuickValue(True)
 
 	def findBestMove(self, maxOrMin):
 		if maxOrMin:
-			return _findBestQuickValue(True)
+			return self._findBestQuickValue(True)
 		else:
-			return _findBestQuickValue(False)
+			return self._findBestQuickValue(False)
 	
 	def _findBestQuickValue(self, maxOrMin):
 		if maxOrMin:
@@ -118,20 +118,20 @@ class CostFunction(object):
 
 				if maxOrMin:
 					#replace min value
-					min = _findMin(valueList)
+					min = self._findMin(valueList)
 					if value > min:
-						_replace(valueList, min, value)
+						self._replace(valueList, min, value)
 				#Replace max value
 				else:
-					max = _findMax(valueList)
+					max = self._findMax(valueList)
 					if value < max:
-						_replace(valueList, max, value)
+						self._replace(valueList, max, value)
 		
 		#Return the lowest acceptable value
 		if maxOrMin:
-			return _findMin(valueList)
+			return self._findMin(valueList)
 		else:
-			return _findMax(valueList)	
+			return self._findMax(valueList)	
 
 	def _findMin(self, valueList):
 		min  = 999
