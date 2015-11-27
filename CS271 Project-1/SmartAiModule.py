@@ -1,44 +1,44 @@
 from Cost import CostFunction
 from DepthFirstSearch import DFS
-import legalMovesList
+# import legalMovesList
 import DepthFirstSearch
 #import Cost
-
+import random
 #Make  a super class called AI? for inheritance?
 class Ai2():
 	
 	#=======================================================================
 	#				Initialization
 	#=======================================================================
-	def __init__(self, marker, board, length):
+	def __init__(self, marker, board, length, firstMove):
 		self.marker = marker
 		self.bestMoveX = -1
 		self.bestMoveY = -1
 		self.board = board
 		self.length = length
+		self.firstMove = firstMove
 		
-	def make_move(self):
-		self.get_best_move()
+	def make_move(self, board, length):
+		self.get_best_move(board, length)
+		self.firstMove = False
 		return (self.bestMoveX, self.bestMoveY)
 		
 class BasicAi(Ai2):
 	
-	firstMove = True
-	
+
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
-		global firstMove
-		dfs = DFS(self.marker, self.board, self.length)
+	def get_best_move(self, board, length):
+		dfs = DFS(self.marker, board, length)
 		#Just go to depth 1 for first move
-		if firstMove:
+		if self.firstMove:
 			cost = dfs.rootCost
 			cost.findBestQuickMove()
 			self.bestMoveX = cost.bestX
 			self.bestMoveY = cost.bestY
 			cost.close()
-			firstMove = False
+
 		else:
 			self.bestMoveX, self.bestMoveY = dfs.compute()
 
@@ -46,24 +46,30 @@ class AdvAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 		pass
 		
 class RandomAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
-		move = random.randint(0, legalMovesList.legalMovesAvailable - 1)
-		legalMovesList.takeTileByIndex(move, self.marker)
-		self.bestMoveX = legalMovesList.prevX
-		self.bestMoveY = legalMovesList.prevY
+	def __init__(self, marker, board, length, firstMove):
+                Ai2. __init__(self, marker, board, length, firstMove)
+                self.ramdomMoveList = [0, 1, 2, 3, 4, 5, 6, 7]
+	def get_best_move(self, board, length):
+                row = random.choice(self.ramdomMoveList)
+                col = random.choice(self.ramdomMoveList)
+                while (board[row][col])
+                        row = random.choice(self.ramdomMoveList)
+                        col = random.choice(self.ramdomMoveList)
+		self.bestMoveX = col 
+		self.bestMoveY = row
 
 class MidAi(Ai2):
 	#=======================================================================
 	#				Functions
 	#=======================================================================
-	def get_best_move(self):
+	def get_best_move(self, board, length):
 		move = legalMovesList.legalMovesAvailable / 2
 		legalMovesList.takeTileByIndex(move, self.marker)
 		self.bestMoveX = legalMovesList.prevX

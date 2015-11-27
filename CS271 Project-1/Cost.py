@@ -1,5 +1,9 @@
 
-from Gui import NONE, PLAYER1, PLAYER2
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+
+# from Gui import NONE, PLAYER1, PLAYER2
 import random
 
 illegalSpace = -999

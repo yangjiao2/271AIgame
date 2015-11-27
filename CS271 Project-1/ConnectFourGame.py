@@ -3,12 +3,18 @@ This class is a module for implementations in the connectfour game.
 '''
 
 
-from Gui import NONE, PLAYER1, PLAYER2
+# from Gui import NONE, PLAYER1, PLAYER2
 import SmartAiModule
+from SmartAiModule import BasicAi
+
+NONE = '.'
+PLAYER1 = 'x'
+PLAYER2 = 'o'
+
 
 class ConnectFourGame:
     
-    def __init__(self, board_col, board_row, win_length = 4):
+    def __init__(self, board_col, board_row, mode, win_length = 4):
         global NONE, PLAYER1, PLAYER2
         self.BOARD_COLUMNS = board_col
         self.BOARD_ROWS = board_row
@@ -16,7 +22,17 @@ class ConnectFourGame:
         self.turn = PLAYER1
         self.winner = NONE
         self.board = self._new_game_board()
-        self.ai = 0
+        self.firstMove = True
+        self.mode = mode
+        self.moveindex = 1
+        if mode == 2:
+            self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
+        if mode == 3:
+            self.firstMove1 = True
+            self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+            self.firstMove2 = True 
+            self.ai2 = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove2)
+            
 
     def _new_game_board(self):
         global NONE, PLAYER1, PLAYER2
@@ -60,24 +76,47 @@ class ConnectFourGame:
             return "PLAYER1"
         else:
             return "PLAYER2"
-            
-    def drop_piece(self, column_number, row_number):
-        ''' drop a piece on the board'''
+
+    def drop_piece_without_ai(self, column_number, row_number):
+        global NONE, PLAYER1, PLAYER2
         self._col_check(column_number)
         self._row_check(row_number)
+        if (not self.check_empty(column_number, row_number)):
+            raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
+
+        self.board[column_number][row_number] = self.turn
+        self._opposite_turn()
+        self.moveindex = self.moveindex + 1
+
+        
+    def drop_piece(self, column_number, row_number):
+        ''' drop a piece on the board'''
+        global NONE, PLAYER1, PLAYER2
+
  
         if (not self.check_empty(column_number, row_number)):
             raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
-        else:
-            self.board[column_number][row_number] = self.turn
-            self._opposite_turn()
+        
 
-    def ask_ai_drop_piece(self, column_number, row_number):
-        '''ask ai to drop a piece '''
-        self.ai = AdvAi2(self.turn, self.board, len(self.board))
-        self.get_best_move()
-        (row, col) = self.make_move()
-        self.drop_piece(col, row)
+        if self.mode == 1:
+            self.drop_piece_without_ai(column_number, row_number)
+        if self.mode == 2:
+            if (self.moveindex % 2):
+                self.drop_piece_without_ai(column_number, row_number)
+            else:
+                (row, col) = self.ai.make_move(self.board, len(self.board))
+                self.drop_piece_without_ai(col, row)
+                self.firstMove = False
+
+        if self.mode == 3:
+            if (self.moveindex % 2):
+                (row, col) = self.ai1.make_move(self.board, len(self.board))
+                self.drop_piece_without_ai(col, row)
+                self.firstMove1 = False
+            else:
+                (row, col) = self.ai2.make_move(self.board, len(self.board))
+                self.drop_piece_without_ai(col, row)
+                self.firstMove2 = False
 
 
     def winning_player(self):
