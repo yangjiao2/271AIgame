@@ -24,38 +24,102 @@ class CostFunction(object):
 		self.marker = marker
 		self.board  = board
 		self.boardLength = length
+		self.hasWinningMove = False
 		self.max = [[0] * self.boardLength for i in range(self.boardLength)]
 		self.min = [[0] * self.boardLength for i in range(self.boardLength)]
-		for i in range(0, self.boardLength):
-			for j in range(0, self.boardLength):
-			
-				#My piece on board
-				if self.board[i][j] == marker:
-					self.max[i][j] = illegalSpace
-					self.min[i][j] = illegalSpace
-					self.upMaxValues(i, j, 1)
-				
-				#Empty Space on board
-				elif self.board[i][j] == NONE:
-				
-					#Empty Space not on sides of board is better
-					if (i > 0) and i < (self.boardLength - 1):
-						if (j > 0) and j < (self.boardLength - 1):
-							self.max[i][j] = self.max[i][j] + 1
-							self.min[i][j] = self.min[i][j] + 1
-				
-				#Opp space on board
-				else:
-					self.max[i][j] = illegalSpace
-					self.min[i][j] = illegalSpace
-					self.upMinValues(i, j, 1)
-					
+
 		self.bestX = -1
 		self.bestY = -1	
+		self._checkWinningMove()
+
+		#No point in search if we know the winning move
+		if not self.hasWinningMove:
+			for i in range(0, self.boardLength):
+				for j in range(0, self.boardLength):
+				
+					#My piece on board
+					if self.board[i][j] == marker:
+						self.max[i][j] = illegalSpace
+						self.min[i][j] = illegalSpace
+						self.upMaxValues(i, j, 1)
+					
+					#Empty Space on board
+					elif self.board[i][j] == NONE:
+					
+						#Empty Space not on sides of board is better
+						if (i > 0) and i < (self.boardLength - 1):
+							if (j > 0) and j < (self.boardLength - 1):
+								self.max[i][j] = self.max[i][j] + 1
+								self.min[i][j] = self.min[i][j] + 1
+					
+					#Opp space on board
+					else:
+						self.max[i][j] = illegalSpace
+						self.min[i][j] = illegalSpace
+						self.upMinValues(i, j, 1)
+						
+
 		
 		#So we don't expand too many nodes, track some min value to expand
 		self.leastMax = 2
 		self.leastMin = 2
+
+	def _checkWinningMove(self):
+		for i in range(0, self.boardLength):
+			for j in range(0, self.boardLength):
+			
+				#My piece on board
+				if self.board[i][j] != NONE:
+					self._checkWin(i ,j)
+					if self.bestX != -1 and self.bestY != -1:
+						self.hasWinningMove = True
+						return
+					
+
+	def _checkWin(self, i, j):
+		#Check if there's a winning x 
+		if i + 2 < self.boardLength:
+			if self.board[i][j] == self.board[i+1][j] and self.board[i][j] == self.board[i+2][j]:
+				if i - 1 >= 0 and self.board[i-1][j] == NONE:
+					self.bestX = i - 1
+					self.bestY = j
+					return
+				elif i + 3 < self.boardLength and self.board[i+3][j] == NONE:
+					self.bestX = i + 3
+					self.bestY = j
+					return
+		#Check if there's a winning y			
+		if j + 2 < self.boardLength:
+			if self.board[i][j] == self.board[i][j+1] and self.board[i][j] == self.board[i][j+2]:
+				if j - 1 >= 0 and self.board[i][j-1] == NONE:
+					self.bestX = i
+					self.bestY = j - 1
+					return
+				elif j + 3 < self.boardLength and self.board[i][j+3] == NONE:
+					self.bestX = i
+					self.bestY = j + 3
+					return			
+		#Check if there's a winning diag			
+		if i + 2 < self.boardLength and j + 2 < self.boardLength:
+			if self.board[i][j] == self.board[i+1][j+1] and self.board[i][j] == self.board[i+2][j+2]:
+				if i - 1 >= 0 and j - 1 >= 0 and self.board[i-1][j-1] == NONE:
+					self.bestX = i - 1
+					self.bestY = j - 1
+					return
+				elif i + 3 < self.boardLength and j + 3 < self.boardLength and self.board[i+3][j+3] == NONE:
+					self.bestX = i + 3
+					self.bestY = j + 3
+					return
+		if i + 2 < self.boardLength and j - 2 >= 0:
+			if self.board[i][j] == self.board[i+1][j-1] and self.board[i][j] == self.board[i+2][j-2]:
+				if i - 1 >= 0 and j + 1 < self.boardLength and self.board[i-1][j+1] == NONE:
+					self.bestX = i - 1
+					self.bestY = j + 1
+					return
+				elif i + 3 < self.boardLength and j - 3 >= 0 and self.board[i+3][j-3] == NONE:
+					self.bestX = i + 3
+					self.bestY = j - 3
+					return					
 				
 #=======================================================================
 #	METHOD TO FIND BEST MOVE
@@ -73,6 +137,9 @@ class CostFunction(object):
 		self.leastMin = self._findLowerBoundValue(self.min)	
 	
 	def findBestQuickMove(self):
+		if self.hasWinningMove:
+			return
+
 		#First see if min can win...
 		bestMin = self.findBestQuickValue(self.min)
 		bestMinX = self.bestX

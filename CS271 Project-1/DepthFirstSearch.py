@@ -141,4 +141,8 @@ class DFS(object):
 	def compute(self):
 		global depthA
 		rootNode = Node(-1, -1)
-		return self._addChildren(rootNode, self.rootCost, True, depthA, -999, 999)
+
+		if self.rootCost.hasWinningMove:
+			return (self.rootCost.bestX, self.rootCost.bestY)
+		else:	
+			return self._addChildren(rootNode, self.rootCost, True, depthA, -999, 999)
