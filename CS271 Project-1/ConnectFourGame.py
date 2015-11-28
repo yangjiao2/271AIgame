@@ -15,26 +15,27 @@ PLAYER2 = 'o'
 class ConnectFourGame:
     
     def __init__(self, board_col, board_row, mode, win_length = 4):
-        global NONE, PLAYER1, PLAYER2
-        self.BOARD_COLUMNS = board_col
-        self.BOARD_ROWS = board_row
-        self.WINNING_LENGTH = win_length
-        self.turn = PLAYER1
-        self.winner = NONE
-        self.board = self._new_game_board()
-        self.firstMove = True
-        self.mode = mode
-        self.moveindex = 1
+		global NONE, PLAYER1, PLAYER2
+		self.BOARD_COLUMNS = board_col
+		self.BOARD_ROWS = board_row
+		self.WINNING_LENGTH = win_length
+		self.turn = PLAYER1
+		self.winner = NONE
+		self.board = self._new_game_board()
+		self.firstMove = True
+		self.mode = mode
+		print self.mode
+		self.moveindex = 1
         #===========================================================
         #Input AI here?
         #===========================================================
-        if mode == 2:
-            self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
-        if mode == 3:
-            self.firstMove1 = True
-            self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
-            self.firstMove2 = True 
-            self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
+		if mode == 2:
+			self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
+		if mode == 3:
+			self.firstMove1 = True
+			self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			self.firstMove2 = True 
+			self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
             
 
     def _new_game_board(self):
