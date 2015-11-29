@@ -135,7 +135,7 @@ class ConnectFourGame:
                     else:
                         self._opposite_turn()
         self.winner = winner
-        return NONE
+        return self.winner
 
     def print_board(self):
         ''' print the board in console '''
