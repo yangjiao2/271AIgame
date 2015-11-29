@@ -100,9 +100,9 @@ class Test(QtGui.QWidget):
 					qp.setBrush(QtGui.QColor(255,255,255))
 					qp.drawRect(10+20*j,10+i*20,20,20)
 				elif self.chessboard.board[j][i] == PLAYER1:
-					qp.drawPixmap(10+20*j,10+i*20,QtGui.QPixmap("player1.png"),20,20)
+					qp.drawPixmap(10+20*j,10+i*20,20,20,QtGui.QPixmap("player1.png"))
 				elif self.chessboard.board[j][i] == PLAYER2:
-					qp.drawPixmap(10+20*j,10+i*20,QtGui.QPixmap("cross.jpg"),20,20)
+					qp.drawPixmap(10+20*j,10+i*20,20,20,QtGui.QPixmap("cross.jpg"))
 				
 class Puzzle(QtGui.QWidget):
 	def __init__(self,length,mode):
