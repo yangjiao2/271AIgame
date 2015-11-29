@@ -97,12 +97,12 @@ class Test(QtGui.QWidget):
 		for i in range(0,self.length):
 			for j in range(0,self.length):
 				if self.chessboard.board[j][i] == NONE:
-					qp.setBrush(QtGui.QColor(255,0,0))
+					qp.setBrush(QtGui.QColor(255,255,255))
+					qp.drawRect(10+20*j,10+i*20,20,20)
 				elif self.chessboard.board[j][i] == PLAYER1:
-					qp.setBrush(QtGui.QColor(0,255,0))
+					qp.drawPixmap(10+20*j,10+i*20,QtGui.QPixmap("player1.png"),20,20)
 				elif self.chessboard.board[j][i] == PLAYER2:
-					qp.setBrush(QtGui.QColor(0,0,255))
-				qp.drawRect(10+20*j,10+i*20,20,20)
+					qp.drawPixmap(10+20*j,10+i*20,QtGui.QPixmap("cross.jpg"),20,20)
 				
 class Puzzle(QtGui.QWidget):
 	def __init__(self,length,mode):
@@ -153,12 +153,12 @@ class Puzzle(QtGui.QWidget):
 		for i in range(0,self.length):
 			for j in range(0,self.length):
 				if self.chessboard.board[j][i] == NONE:
-					qp.setBrush(QtGui.QColor(255,0,0))
+					qp.setBrush(QtGui.QColor(255,255,255))
+					qp.drawRect(10+20*j,10+i*20,20,20)
 				elif self.chessboard.board[j][i] == PLAYER1:
-					qp.setBrush(QtGui.QColor(0,255,0))
+					qp.drawPixmap(10+20*j,10+i*20,20,20,QtGui.QPixmap("player1.png"))
 				elif self.chessboard.board[j][i] == PLAYER2:
-					qp.setBrush(QtGui.QColor(0,0,255))
-				qp.drawRect(10+20*j,10+i*20,20,20)
+					qp.drawPixmap(10+20*j,10+i*20,20,20,QtGui.QPixmap("cross.jpg"))
 	def turn(self,qp):
 		if self.row.text():
 			row = int(self.row.text())
