@@ -5,7 +5,7 @@ This class is a module for implementations in the connectfour game.
 
 # from Gui import NONE, PLAYER1, PLAYER2
 import SmartAiModule
-from SmartAiModule import BasicAi, AdvAi
+from SmartAiModule import BasicAi, AdvAi,TrueAlphaAi,RandomAi
 
 NONE = '.'
 PLAYER1 = 'x'
@@ -33,9 +33,11 @@ class ConnectFourGame:
 			self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
 		if mode == 3:
 			self.firstMove1 = True
-			self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			#self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			self.ai1 = TrueAlphaAi(PLAYER1, self.board, len(self.board), self.firstMove1)
 			self.firstMove2 = True 
-			self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
+			#self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
+			self.ai2 = RandomAi(PLAYER1, self.board, len(self.board), self.firstMove2)
             
 
     def _new_game_board(self):

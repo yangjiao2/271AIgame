@@ -5,6 +5,8 @@ import DepthFirstSearch
 #import Cost
 import random
 #Make  a super class called AI? for inheritance?
+from Gui import NONE,PLAYER1,PLAYER2
+
 class Ai2():
 
 	#=======================================================================
@@ -74,14 +76,15 @@ class RandomAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def __init__(self, marker, board, length, firstMove):
-                Ai2. __init__(self, marker, board, length, firstMove)
-                self.ramdomMoveList = [0, 1, 2, 3, 4, 5, 6, 7]
+		Ai2. __init__(self, marker, board, length, firstMove)
+		self.ramdomMoveList = [0, 1, 2, 3, 4, 5, 6, 7]
 	def get_best_move(self, board, length):
-                row = random.choice(self.ramdomMoveList)
-                col = random.choice(self.ramdomMoveList)
-                while (board[row][col]):
-                        row = random.choice(self.ramdomMoveList)
-                        col = random.choice(self.ramdomMoveList)
+		global NONE		
+		row = random.choice(self.ramdomMoveList)
+		col = random.choice(self.ramdomMoveList)
+		while (board[row][col]!= NONE):
+			row = random.choice(self.ramdomMoveList)
+			col = random.choice(self.ramdomMoveList)
 		self.bestMoveX = col
 		self.bestMoveY = row
 
