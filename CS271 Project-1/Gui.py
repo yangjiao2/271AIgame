@@ -62,6 +62,8 @@ class Test(QtGui.QWidget):
 		self.chessboard = ConnectFourGame.ConnectFourGame(length,length, mode)
 		self.length = length
 		self.VSMode = VSMode
+		self.timeAI1 = 0
+		self.timeAI2 = 0
 		self.initUI()
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
@@ -85,11 +87,19 @@ class Test(QtGui.QWidget):
 		row = 1
 		column = 1
 		start_time = time.time()
+		self.turn = self.chessboard.turn
 		self.chessboard.drop_piece(row,column)
 		end_time = time.time()
 		print start_time
 		print end_time
 		print end_time-start_time
+		if self.turn == PLAYER1:
+			self.timeAI1 += end_time - start_time
+			print "PLAYER1: " + str(self.timeAI1)
+		else:
+			self.timeAI2 += end_time - start_time
+			print "PLAYER2: " + str(self.timeAI2)
+			
 	def drawRectangles(self, qp):
 		color = QtGui.QColor(0,0,0)
 		color.setNamedColor('#d4d4d4')
