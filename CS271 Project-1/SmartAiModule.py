@@ -79,7 +79,7 @@ class RandomAi(Ai2):
 		Ai2. __init__(self, marker, board, length, firstMove)
 		self.ramdomMoveList = [0, 1, 2, 3, 4, 5, 6, 7]
 	def get_best_move(self, board, length):
-		global NONE		
+		global NONE
 		row = random.choice(self.ramdomMoveList)
 		col = random.choice(self.ramdomMoveList)
 		while (board[row][col]!= NONE):

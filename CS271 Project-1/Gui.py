@@ -5,7 +5,7 @@ from math import *
 import random,time
 import Queue
 import ConnectFourGame
-import time
+import time,csv
 NONE = '.'
 PLAYER1 = 'x'
 PLAYER2 = 'o'
@@ -62,8 +62,9 @@ class Test(QtGui.QWidget):
 		self.chessboard = ConnectFourGame.ConnectFourGame(length,length, mode)
 		self.length = length
 		self.VSMode = VSMode
-		self.timeAI1 = 0
-		self.timeAI2 = 0
+		self.timeAI1 = [2]
+		self.timeAI2 = [2]
+		self.winner = None
 		self.initUI()
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
@@ -86,20 +87,28 @@ class Test(QtGui.QWidget):
 	def turn(self):
 		row = 1
 		column = 1
-		start_time = time.time()
-		self.turn = self.chessboard.turn
-		self.chessboard.drop_piece(row,column)
-		end_time = time.time()
-		print start_time
-		print end_time
-		print end_time-start_time
-		if self.turn == PLAYER1:
-			self.timeAI1 += end_time - start_time
-			print "PLAYER1: " + str(self.timeAI1)
-		else:
-			self.timeAI2 += end_time - start_time
-			print "PLAYER2: " + str(self.timeAI2)
-			
+		if self.winner == None:
+			start_time = time.time()
+			self.turn = self.chessboard.turn
+			self.chessboard.drop_piece()
+			end_time = time.time()
+			#print start_time
+			#print end_time
+			#print end_time-start_time
+			if self.turn == PLAYER1:
+				self.timeAI1.append(end_time - start_time)
+				#print "PLAYER1: " + str(self.timeAI1.)
+			else:
+				self.timeAI2.append(end_time - start_time)
+				#print "PLAYER2: " + str(self.timeAI2)
+			if self.chessboard.check_winner_exist():
+				self.winner = self.chessboard.winning_player()
+				self.timeAI1.append(sum(self.timeAI1[1:]))
+				self.timeAI2.append(sum(self.timeAI2[1:]))
+			with open("testresult.csv",'wb') as f:
+				a = csv.writer(f)
+				a.writerow(["BasicAi"]+self.timeAI1)
+				a.writerow(["AdvAI"]+self.timeAI2)
 	def drawRectangles(self, qp):
 		color = QtGui.QColor(0,0,0)
 		color.setNamedColor('#d4d4d4')
@@ -176,14 +185,14 @@ class Puzzle(QtGui.QWidget):
 	def turn(self,qp):
 		if self.winner == None:
 			if self.row.text():
-				row = int(self.row.text())
+				row = int(self.row.text())-1
 			else:
-				row = 0
+				row = None
 			if self.column.text():
-				column = int(self.column.text())
+				column = int(self.column.text())-1
 			else:
-				column = 0
-			self.chessboard.drop_piece(row-1,column-1)
+				column = None
+			self.chessboard.drop_piece(row,column)
 		if self.chessboard.check_winner_exist():
 			self.winner = self.chessboard.winning_player()
 			if self.winner == PLAYER1:

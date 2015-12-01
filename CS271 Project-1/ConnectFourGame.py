@@ -33,11 +33,11 @@ class ConnectFourGame:
 			self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
 		if mode == 3:
 			self.firstMove1 = True
-			#self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
-			self.ai1 = TrueAlphaAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			#self.ai1 = TrueAlphaAi(PLAYER1, self.board, len(self.board), self.firstMove1)
 			self.firstMove2 = True 
-			#self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
-			self.ai2 = RandomAi(PLAYER1, self.board, len(self.board), self.firstMove2)
+			self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
+			#self.ai2 = RandomAi(PLAYER1, self.board, len(self.board), self.firstMove2)
             
 
     def _new_game_board(self):
@@ -95,26 +95,25 @@ class ConnectFourGame:
         self.moveindex = self.moveindex + 1
 
         
-    def drop_piece(self, column_number, row_number):
-        ''' drop a piece on the board'''
-        global NONE, PLAYER1, PLAYER2
-
- 
-        if (not self.check_empty(column_number, row_number)):
-            raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
+    def drop_piece(self, column_number = None, row_number = None):
+		''' drop a piece on the board'''
+		global NONE, PLAYER1, PLAYER2
+		if (column_number != None and row_number != None):
+			if (not self.check_empty(column_number, row_number)):
+				raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
         
 
-        if self.mode == 1:
-            self.drop_piece_without_ai(column_number, row_number)
-        if self.mode == 2:
-            if (self.moveindex % 2):
-                self.drop_piece_without_ai(column_number, row_number)
+		if self.mode == 1:
+			self.drop_piece_without_ai(column_number, row_number)
+		if self.mode == 2:
+			if (self.moveindex % 2):
+				self.drop_piece_without_ai(column_number, row_number)
             else:
-                (row, col) = self.ai.make_move(self.board, len(self.board))
-                self.drop_piece_without_ai(col, row)
-                self.firstMove = False
+				(row, col) = self.ai.make_move(self.board, len(self.board))
+				self.drop_piece_without_ai(col, row)
+				self.firstMove = False
 
-        if self.mode == 3:
+		if self.mode == 3:
             if (self.moveindex % 2):
                 (row, col) = self.ai1.make_move(self.board, len(self.board))
                 self.drop_piece_without_ai(col, row)
