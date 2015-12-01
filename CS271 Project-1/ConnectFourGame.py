@@ -5,7 +5,7 @@ This class is a module for implementations in the connectfour game.
 
 # from Gui import NONE, PLAYER1, PLAYER2
 import SmartAiModule
-from SmartAiModule import BasicAi, AdvAi,TrueAlphaAi,RandomAi
+from SmartAiModule import BasicAi, AdvAi, TrueAlphaAi, RandomAi
 
 NONE = '.'
 PLAYER1 = 'x'
@@ -14,7 +14,7 @@ PLAYER2 = 'o'
 
 class ConnectFourGame:
     
-    def __init__(self, board_col, board_row, mode, win_length = 4):
+    def __init__(self, board_col, board_row, mode, win_length=4):
 		global NONE, PLAYER1, PLAYER2
 		self.BOARD_COLUMNS = board_col
 		self.BOARD_ROWS = board_row
@@ -27,17 +27,17 @@ class ConnectFourGame:
 		print self.mode
 		self.moveindex = 1
         #===========================================================
-        #Input AI here?
+        # Input AI here?
         #===========================================================
 		if mode == 2:
 			self.ai = BasicAi(PLAYER2, self.board, len(self.board), self.firstMove)
 		if mode == 3:
 			self.firstMove1 = True
 			self.ai1 = BasicAi(PLAYER1, self.board, len(self.board), self.firstMove1)
-			#self.ai1 = TrueAlphaAi(PLAYER1, self.board, len(self.board), self.firstMove1)
+			# self.ai1 = TrueAlphaAi(PLAYER1, self.board, len(self.board), self.firstMove1)
 			self.firstMove2 = True 
 			self.ai2 = AdvAi(PLAYER2, self.board, len(self.board), self.firstMove2)
-			#self.ai2 = RandomAi(PLAYER1, self.board, len(self.board), self.firstMove2)
+			# self.ai2 = RandomAi(PLAYER1, self.board, len(self.board), self.firstMove2)
             
 
     def _new_game_board(self):
@@ -95,30 +95,27 @@ class ConnectFourGame:
         self.moveindex = self.moveindex + 1
 
         
-    def drop_piece(self, column_number = None, row_number = None):
-		''' drop a piece on the board'''
-		global NONE, PLAYER1, PLAYER2
-		if (column_number != None and row_number != None):
-			if (not self.check_empty(column_number, row_number)):
-				raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
-        
-
-		if self.mode == 1:
-			self.drop_piece_without_ai(column_number, row_number)
-		if self.mode == 2:
-			if (self.moveindex % 2):
-				self.drop_piece_without_ai(column_number, row_number)
+    def drop_piece(self, column_number=None, row_number=None):
+	''' drop a piece on the board'''
+	global NONE, PLAYER1, PLAYER2
+	if (column_number != None and row_number != None):
+            if (not self.check_empty(column_number, row_number)):
+                raise ValueError('row ' + str(row_number) + ', column ' + str(column_number) + ' has been taken')
+	if self.mode == 1:
+            self.drop_piece_without_ai(column_number, row_number)
+	elif self.mode == 2:
+            if (self.moveindex % 2):
+                self.drop_piece_without_ai(column_number, row_number)
             else:
-				(row, col) = self.ai.make_move(self.board, len(self.board))
-				self.drop_piece_without_ai(col, row)
-				self.firstMove = False
-
-		if self.mode == 3:
+                (row, col) = self.ai.make_move(self.board, len(self.board))
+		self.drop_piece_without_ai(col, row)
+		self.firstMove = False
+        elif self.mode == 3:
             if (self.moveindex % 2):
                 (row, col) = self.ai1.make_move(self.board, len(self.board))
                 self.drop_piece_without_ai(col, row)
                 self.firstMove1 = False
-            else:
+             else:
                 (row, col) = self.ai2.make_move(self.board, len(self.board))
                 self.drop_piece_without_ai(col, row)
                 self.firstMove2 = False
@@ -178,7 +175,7 @@ class ConnectFourGame:
             for i in range(1, self.WINNING_LENGTH):
                 if not 0 <= col + coldelta * i < self.BOARD_COLUMNS \
                         or not 0 <= row + rowdelta * i < self.BOARD_ROWS \
-                        or self.board[col + coldelta *i][row + rowdelta * i] != start_cell:
+                        or self.board[col + coldelta * i][row + rowdelta * i] != start_cell:
                     return False
             return True
         
