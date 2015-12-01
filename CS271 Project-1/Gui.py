@@ -111,7 +111,8 @@ class Puzzle(QtGui.QWidget):
 		self.length = length
 		self.VSMode = VSMode
 		self.initUI()
-		self.mode = mode	
+		self.mode = mode
+		self.winner = None
 	def initUI(self):
 		self.setGeometry(300, 300, 700, 500)
 		self.setWindowTitle('ConnectFourGame')
@@ -145,6 +146,9 @@ class Puzzle(QtGui.QWidget):
 		qp = QtGui.QPainter()
 		qp.begin(self)
 		self.drawRectangles(qp)
+		if self.winner != None:
+			qp.setPen(QtGui.QColor(255,0,0))
+			qp.drawText(200,100,self.text)
 		qp.end()
 	def drawRectangles(self, qp):
 		color = QtGui.QColor(0,0,0)
@@ -160,19 +164,22 @@ class Puzzle(QtGui.QWidget):
 				elif self.chessboard.board[j][i] == PLAYER2:
 					qp.drawPixmap(10+20*j,10+i*20,20,20,QtGui.QPixmap("cross.jpg"))
 	def turn(self,qp):
-		if self.row.text():
-			row = int(self.row.text())
-		else:
-			row = 0
-		if self.column.text():
-			column = int(self.column.text())
-		else:
-			column = 0
-		self.chessboard.drop_piece(row-1,column-1)
+		if self.winner == None:
+			if self.row.text():
+				row = int(self.row.text())
+			else:
+				row = 0
+			if self.column.text():
+				column = int(self.column.text())
+			else:
+				column = 0
+			self.chessboard.drop_piece(row-1,column-1)
 		if self.chessboard.check_winner_exist():
-			print "winner"
-
-
+			self.winner = self.chessboard.winning_player()
+			if self.winner == PLAYER1:
+				self.text = "winner is : Player1"
+			else:
+				self.text = "winner is : Player2"
 def main():
 	app = QtGui.QApplication(sys.argv)
 	mode = Modeselect()
