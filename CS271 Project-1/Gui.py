@@ -64,6 +64,7 @@ class Test(QtGui.QWidget):
 		self.VSMode = VSMode
 		self.timeAI1 = [2]
 		self.timeAI2 = [2]
+		self.testresult = []
 		self.winner = None
 		self.initUI()
 	def initUI(self):
@@ -105,8 +106,15 @@ class Test(QtGui.QWidget):
 				self.winner = self.chessboard.winning_player()
 				self.timeAI1.append(sum(self.timeAI1[1:]))
 				self.timeAI2.append(sum(self.timeAI2[1:]))
+				self.timeAI1.append(self.timeAI1[-1]/(len(self.timeAI1)-1))
+				self.timeAI2.append(self.timeAI2[-1]/(len(self.timeAI2)-1))
+			with open("testresult.csv") as f:
+				for line in f.readlines():
+				self.testresult.append(line.strip().split(","))
 			with open("testresult.csv",'wb') as f:
 				a = csv.writer(f)
+				for line in self.testresult:
+					a.writerow(line)
 				a.writerow(["BasicAi"]+self.timeAI1)
 				a.writerow(["AdvAI"]+self.timeAI2)
 	def drawRectangles(self, qp):
