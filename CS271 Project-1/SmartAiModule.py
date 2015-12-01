@@ -6,7 +6,7 @@ import DepthFirstSearch
 import random
 #Make  a super class called AI? for inheritance?
 class Ai2():
-	
+
 	#=======================================================================
 	#				Initialization
 	#=======================================================================
@@ -15,12 +15,13 @@ class Ai2():
 		self.bestMoveX = -1
 		self.bestMoveY = -1
 		self.firstMove = firstMove
-		
+
 	def make_move(self, board, length):
 		self.get_best_move(board, length)
 		self.firstMove = False
+		print "%s [%d %d]" % (self.marker, self.bestMoveY, self.bestMoveX)
 		return (self.bestMoveY, self.bestMoveX)
-		
+
 class BasicAi(Ai2):
 	#=======================================================================
 	#				Functions
@@ -31,9 +32,6 @@ class BasicAi(Ai2):
 		cost.findBestQuickMove()
 		self.bestMoveX = cost.bestX
 		self.bestMoveY = cost.bestY
-		print self.marker
-		print self.bestMoveY
-		print self.bestMoveX 
 		cost.close()
 
 class AdvAi(Ai2):
@@ -54,7 +52,7 @@ class AdvAi(Ai2):
 			self.bestMoveX, self.bestMoveY = dfs.compute()
 
 class TrueAlphaAi(Ai2):
-	
+
 	#=======================================================================
 	#				Functions
 	#=======================================================================
@@ -70,7 +68,7 @@ class TrueAlphaAi(Ai2):
 			cost.close()
 		else:
 			self.bestMoveX, self.bestMoveY = dfs.compute()
-		
+
 class RandomAi(Ai2):
 	#=======================================================================
 	#				Functions
@@ -84,7 +82,7 @@ class RandomAi(Ai2):
                 while (board[row][col]):
                         row = random.choice(self.ramdomMoveList)
                         col = random.choice(self.ramdomMoveList)
-		self.bestMoveX = col 
+		self.bestMoveX = col
 		self.bestMoveY = row
 
 class MidAi(Ai2):
@@ -95,4 +93,4 @@ class MidAi(Ai2):
 		move = legalMovesList.legalMovesAvailable / 2
 		legalMovesList.takeTileByIndex(move, self.marker)
 		self.bestMoveX = legalMovesList.prevX
-		self.bestMoveY = legalMovesList.prevY	
+		self.bestMoveY = legalMovesList.prevY

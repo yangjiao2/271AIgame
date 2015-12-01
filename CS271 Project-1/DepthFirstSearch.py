@@ -15,7 +15,7 @@ class DFS(object):
 
 #=======================================================================
 #	INITIALIZATION
-#=======================================================================	
+#=======================================================================
 	def __init__(self, marker, board, boardLength):
 		global depth, alphaBetaEnabled
 
@@ -27,31 +27,31 @@ class DFS(object):
 
 	def _addChildren(self, parentNode, parentCost, maxOrMin, depth, alpha, beta):
 		global length
-		
+
 		breakOut = False
 
 		#Add up to board children to parent
 		for i in range(0, self.boardLength):
 			for j in range(0, self.boardLength):
-			
+
 				#My piece on board
 				if parentCost.max[i][j] != Cost.illegalSpace:
-					
+
 					#Don't expand too many nodes =================
 					if maxOrMin and parentCost.max[i][j] < parentCost.leastMax:
 						continue
-						
+
 					if parentCost.alphaBetaTrue:
 						if not maxOrMin and parentCost.min[i][j] > parentCost.leastMin:
-							continue	
+							continue
 					else:
 						if not maxOrMin and parentCost.min[i][j] < parentCost.leastMin:
-							continue	
+							continue
 					#=============================================
-					
+
 					newNode = Node(i, j)
 					parentNode.addChild(newNode)
-					
+
 					#Create new cost function
 					newCost = copy.deepcopy(parentCost)
 
@@ -62,20 +62,20 @@ class DFS(object):
 					#do not expand on last depth
 					if depth > 1:
 						self._addChildren(newNode, newCost, not maxOrMin, depth - 1, alpha, beta)
-						
+
 						newBeta  = newNode.beta
 
 						#update alpha and beta
 						if parentCost.alphaBetaTrue:
 						 	if maxOrMin:
 								alpha = max(alpha, newNode.beta)
-								print alpha #print here should not be -999
+								#print alpha #print here should not be -999
 							else:
 								beta = min(beta, newNode.alpha)
-								print beta #print here should not be 999
+								#print beta #print here should not be 999
 
 							if alphaBetaEnabled and alpha >= beta:
-								breakOut = True	
+								breakOut = True
 						else:
 							if maxOrMin:
 								alpha = max(alpha, newNode.beta)
@@ -87,22 +87,22 @@ class DFS(object):
 							#is this logic right??
 							if alphaBetaEnabled:
 								if maxOrMin and alpha >= beta:
-									breakOut = True	
+									breakOut = True
 								elif not maxOrMin and alpha <= beta:
-									breakOut = True		
+									breakOut = True
 
 					else:
 						newNode.setMaxValue(newCost.findBestMove(True))
 						newNode.setMinValue(newCost.findBestMove(False))
-						
-					newCost.close()	
+
+					newCost.close()
 
 				#Stop searching if alpha beta ended
 				if breakOut:
-					break	
+					break
 			if breakOut:
-				break		
-						
+				break
+
 		#my cost is the best of my children
 		bestValue = 0
 		bestI = 0
@@ -113,7 +113,7 @@ class DFS(object):
 				currValue = currNode.MaxValue
 			else:
 				currValue = currNode.MinValue
-			
+
 			#Normal AlphaBeta Pruning
 			if parentCost.alphaBetaTrue:
 				if maxOrMin and currValue > bestValue:
@@ -126,17 +126,17 @@ class DFS(object):
 			elif currValue > bestValue:
 				bestValue = currValue
 				bestI = i
-				
+
 		if maxOrMin:
 			parentNode.setAlpha(bestValue)
 		else:
 			parentNode.setBeta(bestValue)
-		
+
 		bestNode = parentNode.children[bestI]
 		parentNode.copyNodeValues(bestNode)
-		
+
 		return (bestNode.x, bestNode.y)
-		
+
 	#public handle for starting DFS
 	def compute(self):
 		global depthA
@@ -144,5 +144,5 @@ class DFS(object):
 
 		if self.rootCost.hasWinningMove:
 			return (self.rootCost.bestX, self.rootCost.bestY)
-		else:	
+		else:
 			return self._addChildren(rootNode, self.rootCost, True, depthA, -999, 999)
