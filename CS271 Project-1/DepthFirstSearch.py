@@ -4,7 +4,7 @@ import ChoiceNode
 import Cost
 import copy
 
-depthA  = 3	# Depth will be revalued to adjust for timing
+depthA  = 5	# Depth will be revalued to adjust for timing
 alphaBetaEnabled = True
 
 class DFS(object):
