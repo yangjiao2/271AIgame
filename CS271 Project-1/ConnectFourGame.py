@@ -115,7 +115,7 @@ class ConnectFourGame:
                 (row, col) = self.ai1.make_move(self.board, len(self.board))
                 self.drop_piece_without_ai(col, row)
                 self.firstMove1 = False
-             else:
+            else:
                 (row, col) = self.ai2.make_move(self.board, len(self.board))
                 self.drop_piece_without_ai(col, row)
                 self.firstMove2 = False

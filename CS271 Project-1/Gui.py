@@ -110,7 +110,7 @@ class Test(QtGui.QWidget):
 				self.timeAI2.append(self.timeAI2[-1]/(len(self.timeAI2)-1))
 			with open("testresult.csv") as f:
 				for line in f.readlines():
-				self.testresult.append(line.strip().split(","))
+					self.testresult.append(line.strip().split(","))
 			with open("testresult.csv",'wb') as f:
 				a = csv.writer(f)
 				for line in self.testresult:
