@@ -58,12 +58,10 @@ class DFS(object):
 					newCost.makeMove(maxOrMin, i, j)
 					
 					#Don't search if this going to win
-					if newCost.hasLosingMove:
+					if maxOrMin and newCost.hasLosingMove:
 						newNode.setMaxValue(-1000)
-						#newNode.setMinValue(1000)
-					elif newCost.hasWinningMove:
+					elif not maxOrMin and not newCost.hasLosingMove and newCost.hasWinningMove:
 						newNode.setMaxValue(1000)
-						#newNode.setMinValue(-1000)
 					else:
 						#call this to addchildren with !maxOrMin
 						#do not expand on last depth
@@ -83,18 +81,20 @@ class DFS(object):
 
 								if self.alphaBetaEnabled and alpha >= beta:
 									breakOut = True
-							else:
-								if maxOrMin:
-									alpha = max(alpha, newNode.beta)
+							#else:
+							#	if maxOrMin:
+							#		alpha = max(alpha, newNode.beta)
 									#print alpha #print here should not be -999
-								else:
-									beta = max(beta, newNode.alpha)
+							#	else:
+							#		beta = max(beta, newNode.alpha)
 									#print beta #print here should not be 999
 
 								#is this logic right??
-								if alpha >= beta:
-									breakOut = True
-								
+							#	if self.alphaBetaEnabled:
+							#		if maxOrMin and alpha >= beta:
+							#			breakOut = True
+							#		elif not maxOrMin and alpha <= beta:
+							#			breakOut = True
 
 						else:
 							newNode.setMaxValue(newCost.findBestMove(True) - newCost.findBestMove(False))

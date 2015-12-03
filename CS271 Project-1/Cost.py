@@ -366,7 +366,7 @@ class CostFunction(object):
 				if self.board[i][j] != NONE and self.board[i][j] != self.marker:
 					self._checkWin(i ,j)
 					if self.bestX != -1 and self.bestY != -1:
-						self.hasLosingMove  = False
+						self.hasLosingMove  = True
 						self.hasWinningMove = True
 						return
 
