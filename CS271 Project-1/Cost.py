@@ -20,7 +20,7 @@ class CostFunction(object):
 #=======================================================================
 	def __init__(self, marker, board, length):
 		global NONE, PLAYER2, PLAYER1
-		self.alphaBetaTrue = False
+		self.alphaBetaTrue = True
 		self.marker = marker
 		self.board  = board
 		self.boardLength = length

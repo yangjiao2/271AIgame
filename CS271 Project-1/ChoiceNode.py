@@ -38,8 +38,8 @@ class Node(object):
 	def setMaxValue(self, value):
 		self.MaxValue = value
 		
-	def setMinValue(self, value):
-		self.MinValue = value
+	#def setMinValue(self, value):
+	#	self.MinValue = value
 	
 	def copyValues(self, max, min):
 		self.MaxValue = max

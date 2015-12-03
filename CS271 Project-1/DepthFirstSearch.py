@@ -13,9 +13,9 @@ class DFS(object):
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================
-	def __init__(self, marker, board, boardLength, depthA, ab):
+	def __init__(self, marker, board, boardLength, dep, ab):
 		global depth
-		self.depthA  = 2	# Depth will be revalued to adjust for timing
+		self.depthA  = dep	# Depth will be revalued to adjust for timing
 		self.alphaBetaEnabled = ab
 		
 		self.marker = marker
@@ -60,10 +60,10 @@ class DFS(object):
 					#Don't search if this going to win
 					if newCost.hasLosingMove:
 						newNode.setMaxValue(-1000)
-						newNode.setMinValue(1000)
+						#newNode.setMinValue(1000)
 					elif newCost.hasWinningMove:
 						newNode.setMaxValue(1000)
-						newNode.setMinValue(-1000)
+						#newNode.setMinValue(-1000)
 					else:
 						#call this to addchildren with !maxOrMin
 						#do not expand on last depth
@@ -99,8 +99,8 @@ class DFS(object):
 										breakOut = True
 
 						else:
-							newNode.setMaxValue(newCost.findBestMove(True))
-							newNode.setMinValue(newCost.findBestMove(False))
+							newNode.setMaxValue(newCost.findBestMove(True) - newCost.findBestMove(False))
+							#newNode.setMinValue(newCost.findBestMove(False))
 
 					newCost.close()
 
@@ -115,24 +115,15 @@ class DFS(object):
 		bestI = 0
 		for i in range (0, parentNode.size):
 			currNode = parentNode.children[i]
-			currValue = 0
-			if maxOrMin:
-				currValue = currNode.MaxValue
-			else:
-				currValue = currNode.MinValue
+			currValue = currNode.MaxValue
 
-			#Normal AlphaBeta Pruning
-			if parentCost.alphaBetaTrue:
-				if maxOrMin and currValue > bestValue:
-					bestValue = currValue
-					bestI = i
-				elif not maxOrMin and currValue < bestValue:
-					bestValue = currValue
-					bestI = i
-			#Adjusted Cost Function
-			elif currValue > bestValue:
+			if maxOrMin and currValue > bestValue:
 				bestValue = currValue
 				bestI = i
+			elif not maxOrMin and currValue < bestValue:
+				bestValue = currValue
+				bestI = i
+
 
 		if maxOrMin:
 			parentNode.setAlpha(bestValue)
