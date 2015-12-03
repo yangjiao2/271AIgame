@@ -57,12 +57,13 @@ class DFS(object):
 					#Modify cost function
 					newCost.makeMove(maxOrMin, i, j)
 					
+					#Don't search if this going to win
 					if newCost.hasLosingMove:
-						newNode.setMaxValue(newCost.findBestMove(-1000))
-						newNode.setMinValue(newCost.findBestMove(1000))
+						newNode.setMaxValue(-1000)
+						newNode.setMinValue(1000)
 					elif newCost.hasWinningMove:
-						newNode.setMaxValue(newCost.findBestMove(1000))
-						newNode.setMinValue(newCost.findBestMove(-1000))
+						newNode.setMaxValue(1000)
+						newNode.setMinValue(-1000)
 					else:
 						#call this to addchildren with !maxOrMin
 						#do not expand on last depth
