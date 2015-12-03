@@ -17,8 +17,8 @@ import pylab as pl
 ##y5 = [60,60,57,0, 0, 0, 0, 0, 8, 37, 45, 0, 0,  18, 60, 58, 40, 57, 58, 60, 60, 60, 60, 60, 60]
 ##x1 = [2,3,4,5]
 y1 = [0.001875013,0.001249999,0.001181798]
-y2 = [0.1638333,4.144749999,109.3411666]
-y3 = [0.15342852,0.162714277,6.323071446]
+y2 = [0.12316,4.24786,121.5756]
+y3 = [0.153479,0.177141,5.20114]
 x1= [2, 3, 4]
 
 # use pylab to plot x and y : Give your plots names
@@ -32,7 +32,7 @@ pl.title('Comparision of AI')
 
 # make axis labels
 pl.xlabel('depth')
-pl.ylabel('duration(min)')
+pl.ylabel('duration(sec)')
 
 # set axis limits
 pl.xlim(1, 6)
