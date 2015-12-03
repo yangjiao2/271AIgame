@@ -65,17 +65,7 @@ class TrueAlphaAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def get_best_move(self, board, length):
-		#Need to create a new Cost2 function!
-		dfs = DFS(self.marker, board, length, depth, alphaBetaEnabled)
-		#Just go to depth 1 for first move
-		if self.firstMove:
-			cost = dfs.rootCost
-			cost.findBestQuickMove()
-			self.bestMoveX = cost.bestX
-			self.bestMoveY = cost.bestY
-			cost.close()
-		else:
-			self.bestMoveX, self.bestMoveY = dfs.compute()
+		pass
 
 class RandomAi(Ai2):
 	#=======================================================================
