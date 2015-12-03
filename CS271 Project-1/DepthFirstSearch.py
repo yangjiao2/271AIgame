@@ -92,11 +92,9 @@ class DFS(object):
 									#print beta #print here should not be 999
 
 								#is this logic right??
-								if self.alphaBetaEnabled:
-									if maxOrMin and alpha >= beta:
-										breakOut = True
-									elif not maxOrMin and alpha <= beta:
-										breakOut = True
+								alpha >= beta:
+									breakOut = True
+								
 
 						else:
 							newNode.setMaxValue(newCost.findBestMove(True) - newCost.findBestMove(False))
