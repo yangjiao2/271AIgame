@@ -62,8 +62,8 @@ class Test(QtGui.QWidget):
         self.chessboard = ConnectFourGame.ConnectFourGame(length,length, mode)
         self.length = length
         self.VSMode = VSMode
-        self.timeAI1 = [2]
-        self.timeAI2 = [2]
+        self.timeAI1 = [5]
+        self.timeAI2 = [5]
         self.testresult = []
         self.winner = None
         self.initUI()

@@ -10,8 +10,8 @@ NONE = '.'
 PLAYER1 = 'x'
 PLAYER2 = 'o'
 
-depth = 2
-alphaBetaEnabled = True
+depth = 5
+alphaBetaEnabled = False
 
 class Ai2():
 
