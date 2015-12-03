@@ -18,13 +18,13 @@ import pylab as pl
 ##x1 = [2,3,4,5]
 y1 = [0.001875013,0.001249999,0.001181798]
 y2 = [0.1638333,4.144749999,109.3411666]
-y3 = [0.15342852,0.162714277,6.323071446,7.111142874]
-
+y3 = [0.15342852,0.162714277,6.323071446]
+x1= [2, 3, 4]
 
 # use pylab to plot x and y : Give your plots names
-pl.plot( y1, 'b-+', label = 'BasicAi')
-pl.plot( y2, 'k-d', label = 'AdvAi')
-pl.plot( y3, 'g-o', label = 'PrunedAdvAi')
+pl.plot( x1, y1, 'b-+', label = 'BasicAi')
+pl.plot( x1, y2, 'k-d', label = 'AdvAi')
+pl.plot( x1, y3, 'g-o', label = 'PrunedAdvAi')
 
 
 # give plot a title
@@ -35,7 +35,7 @@ pl.xlabel('depth')
 pl.ylabel('duration(min)')
 
 # set axis limits
-pl.xlim(0.0, 6)
+pl.xlim(1, 6)
 pl.ylim(-10.0, 160)
 
 # make legend
