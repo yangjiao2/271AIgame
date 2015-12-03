@@ -25,13 +25,14 @@ class CostFunction(object):
 		self.board  = board
 		self.boardLength = length
 		self.hasWinningMove = False
+		self.hasVictory     = False
 		self.hasLosingMove  = False
 		self.max = [[0] * self.boardLength for i in range(self.boardLength)]
 		self.min = [[0] * self.boardLength for i in range(self.boardLength)]
 
 		self.bestX = -1
 		self.bestY = -1
-		self._checkWinningMove()
+		self.checkWinningMove()
 
 		#No point in search if we know the winning move
 		if not self.hasWinningMove:
@@ -82,8 +83,8 @@ class CostFunction(object):
 		else:
 			self.upMinValues(i, j, 1)
 			self.board[i][j] = '?'
-			
-		self._checkWinningMove()
+
+		self.checkWinningMove()
 
 		self.leastMax = self._findLowerBoundValue(self.max)
 		self.leastMin = self._findLowerBoundValue(self.min)
@@ -111,6 +112,15 @@ class CostFunction(object):
 			return self.findBestQuickValue (self.max)
 		else:
 			return self.findBestQuickValue (self.min)
+
+	def findStateValue(self):
+		value = 0
+		for i in range(0, self.boardLength):
+			for j in range(0, self.boardLength):
+				if self.max[i][j] != illegalSpace:
+					value = value + self.max[i][j]
+					value = value - self.min[i][j]
+		return value
 
 	def findBestQuickValue(self, matrix):
 		bestValue = -1
@@ -154,19 +164,19 @@ class CostFunction(object):
 				absValue = abs(matrix[i][j])
 
 				#replace min value
-				min = self._findMin(valueList)
-				if absValue > min:
-					self._replaceMin(valueList, min, absValue)
+				amin = self._findMin(valueList)
+				if absValue > amin:
+					self._replaceMin(valueList, amin, absValue)
 
 		#Return the lowest acceptable value
 		return self._findMin(valueList)
 
 	def _findMin(self, valueList):
-		min  = 999
+		amin  = 999
 		for i in range(0, len(valueList)):
-			if valueList[i] < min:
-				min = valueList[i]
-		return min
+			if valueList[i] < amin:
+				amin = valueList[i]
+		return amin
 
 	def _replaceMin(self, valueList, oldValue, newValue):
 		for i in range(0, len(valueList)):
@@ -306,16 +316,16 @@ class CostFunction(object):
 						if maxHori + 2 < self.boardLength and maxVeri + 2 < self.boardLength and matrix[maxHori+2][maxVeri+2] != illegalSpace:
 							matrix[maxHori+2][maxVeri+2] = matrix[maxHori+2][maxVeri+2] + value
 						if minHori - 1 >= 0 and minVeri - 1 >= 0 and matrix[minHori-1][minVeri-1] != illegalSpace:
-							matrix[minHori-1][minVeri-1] = matrix[minHori-1][minVeri-1] - value
+							matrix[minHori-1][minVeri-1] = matrix[minHori-1][minVeri-1] + value
 						if minHori - 2 >= 0 and minVeri - 2 >= 0 and matrix[minHori-2][minVeri-2] != illegalSpace:
-							matrix[minHori-2][minVeri-2] = matrix[minHori-2][minVeri-2] - value
+							matrix[minHori-2][minVeri-2] = matrix[minHori-2][minVeri-2] + value
 					elif abs(yDiff) == 2:
 						if matrix[minHori+1][minVeri+1] != illegalSpace:
 							matrix[minHori+1][minVeri+1] = matrix[minHori+1][minVeri+1] + value
 							if maxHori + 1 < self.boardLength and maxVeri + 1 < self.boardLength and matrix[maxHori+1][maxVeri+1] != illegalSpace:
 								matrix[maxHori+1][maxVeri+1] = matrix[maxHori+1][maxVeri+1] + value
 							if minHori - 1 >= 0 and minVeri - 1 >= 0 and matrix[minHori-1][minVeri-1] != illegalSpace:
-								matrix[minHori-1][minVeri-1] = matrix[minHori-1][minVeri-1] - value
+								matrix[minHori-1][minVeri-1] = matrix[minHori-1][minVeri-1] + value
 					elif abs(yDiff) == 3:
 						if matrix[minHori+1][minVeri+1] != illegalSpace and matrix[minHori+2][minVeri+2] != illegalSpace:
 							matrix[minHori+1][minVeri+1] = matrix[minHori+1][minVeri+1] + value
@@ -332,22 +342,22 @@ class CostFunction(object):
 						if maxHori + 2 < self.boardLength and minVeri - 2 >= 0 and matrix[maxHori+2][minVeri-2] != illegalSpace:
 							matrix[maxHori+2][minVeri-2] = matrix[maxHori+2][minVeri-2] + value
 						if minHori - 1 >= 0 and maxVeri + 1 < self.boardLength and matrix[minHori-1][maxVeri+1] != illegalSpace:
-							matrix[minHori-1][maxVeri+1] = matrix[minHori-1][maxVeri+1] - value
+							matrix[minHori-1][maxVeri+1] = matrix[minHori-1][maxVeri+1] + value
 						if minHori - 2 >= 0 and maxVeri + 2 < self.boardLength and matrix[minHori-2][maxVeri+2] != illegalSpace:
-							matrix[minHori-2][maxVeri+2] = matrix[minHori-2][maxVeri+2] - value
+							matrix[minHori-2][maxVeri+2] = matrix[minHori-2][maxVeri+2] + value
 					elif abs(yDiff) == 2:
 						if matrix[minHori+1][maxVeri-1] != illegalSpace:
 							matrix[minHori+1][maxVeri-1] = matrix[minHori+1][maxVeri-1] + value
 							if maxHori + 1 < self.boardLength and minVeri - 1 >= 0 and matrix[maxHori+1][minVeri-1] != illegalSpace:
 								matrix[maxHori+1][minVeri-1] = matrix[maxHori+1][minVeri-1] + value
 							if minHori - 1 >= 0 and maxVeri + 1 < self.boardLength and matrix[minHori-1][maxVeri+1] != illegalSpace:
-								matrix[minHori-1][maxVeri+1] = matrix[minHori-1][maxVeri+1] - value
+								matrix[minHori-1][maxVeri+1] = matrix[minHori-1][maxVeri+1] + value
 					elif abs(yDiff) == 3:
 						if matrix[minHori+1][maxVeri-1] != illegalSpace and matrix[minHori+2][maxVeri-2] != illegalSpace:
 							matrix[minHori+1][maxVeri-1] = matrix[minHori+1][maxVeri-1] + value
 							matrix[minHori+2][maxVeri-2] = matrix[minHori+2][maxVeri-2] + value
 
-	def _checkWinningMove(self):
+	def checkWinningMove(self):
 		#Try to win first!
 		for i in range(0, self.boardLength):
 			for j in range(0, self.boardLength):
@@ -357,6 +367,7 @@ class CostFunction(object):
 					self._checkWin(i ,j)
 					if self.bestX != -1 and self.bestY != -1:
 						self.hasWinningMove = True
+						self.hasVictory     = True
 						return
 
 		#Try to stop enemy from winning

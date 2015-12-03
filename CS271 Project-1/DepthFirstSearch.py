@@ -17,7 +17,7 @@ class DFS(object):
 		global depth
 		self.depthA  = dep	# Depth will be revalued to adjust for timing
 		self.alphaBetaEnabled = ab
-		
+
 		self.marker = marker
 		self.rootCost = CostFunction(marker, board, boardLength)
 		self.boardLength = boardLength
@@ -40,12 +40,8 @@ class DFS(object):
 					if maxOrMin and parentCost.max[i][j] < parentCost.leastMax:
 						continue
 
-					if parentCost.alphaBetaTrue:
-						if not maxOrMin and parentCost.min[i][j] > parentCost.leastMin:
-							continue
-					else:
-						if not maxOrMin and parentCost.min[i][j] < parentCost.leastMin:
-							continue
+					if not maxOrMin and parentCost.min[i][j] < parentCost.leastMin:
+						continue
 					#=============================================
 
 					newNode = Node(i, j)
@@ -56,19 +52,17 @@ class DFS(object):
 
 					#Modify cost function
 					newCost.makeMove(maxOrMin, i, j)
-					
+
 					#Don't search if this going to win
 					if maxOrMin and newCost.hasLosingMove:
 						newNode.setMaxValue(-1000)
-					elif not maxOrMin and not newCost.hasLosingMove and newCost.hasWinningMove:
+					elif not maxOrMin and newCost.hasVictory:
 						newNode.setMaxValue(1000)
 					else:
 						#call this to addchildren with !maxOrMin
 						#do not expand on last depth
 						if depth > 1:
 							self._addChildren(newNode, newCost, not maxOrMin, depth - 1, alpha, beta)
-
-							newBeta  = newNode.beta
 
 							#update alpha and beta
 							if parentCost.alphaBetaTrue:
@@ -97,8 +91,7 @@ class DFS(object):
 							#			breakOut = True
 
 						else:
-							newNode.setMaxValue(newCost.findBestMove(True) - newCost.findBestMove(False))
-							#newNode.setMinValue(newCost.findBestMove(False))
+							newNode.setMaxValue(newCost.findStateValue())
 
 					newCost.close()
 
@@ -110,6 +103,11 @@ class DFS(object):
 
 		#my cost is the best of my children
 		bestValue = 0
+		if maxOrMin:
+			bestValue = -9999
+		else:
+			bestValue = 9999
+
 		bestI = 0
 		for i in range (0, parentNode.size):
 			currNode = parentNode.children[i]
@@ -140,4 +138,4 @@ class DFS(object):
 		if self.rootCost.hasWinningMove:
 			return (self.rootCost.bestX, self.rootCost.bestY)
 		else:
-			return self._addChildren(rootNode, self.rootCost, True, self.depthA, -999, 999)
+			return self._addChildren(rootNode, self.rootCost, True, self.depthA, -9999, 9999)

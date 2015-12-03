@@ -46,7 +46,7 @@ if __name__ == "__main__":
         cfg.print_board()
         print "-------------------"
         while(not cfg.check_winner_exist()):
-                cfg.drop_piece(2, 7)
+                cfg.drop_piece(-1, -1)
                 cfg.print_board()
         print "-------------------"
 
