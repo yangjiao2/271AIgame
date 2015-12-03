@@ -4,9 +4,6 @@ import ChoiceNode
 import Cost
 import copy
 
-depthA  = 2	# Depth will be revalued to adjust for timing
-alphaBetaEnabled = False
-
 class DFS(object):
 
 #TODO keep a threshold of timing! if moves take over max, decrease depth
@@ -16,9 +13,11 @@ class DFS(object):
 #=======================================================================
 #	INITIALIZATION
 #=======================================================================
-	def __init__(self, marker, board, boardLength):
-		global depth, alphaBetaEnabled
-
+	def __init__(self, marker, board, boardLength, depthA, ab):
+		global depth
+		self.depthA  = 2	# Depth will be revalued to adjust for timing
+		self.alphaBetaEnabled = ab
+		
 		self.marker = marker
 		self.rootCost = CostFunction(marker, board, boardLength)
 		self.boardLength = boardLength
@@ -57,43 +56,50 @@ class DFS(object):
 
 					#Modify cost function
 					newCost.makeMove(maxOrMin, i, j)
-
-					#call this to addchildren with !maxOrMin
-					#do not expand on last depth
-					if depth > 1:
-						self._addChildren(newNode, newCost, not maxOrMin, depth - 1, alpha, beta)
-
-						newBeta  = newNode.beta
-
-						#update alpha and beta
-						if parentCost.alphaBetaTrue:
-						 	if maxOrMin:
-								alpha = max(alpha, newNode.beta)
-								#print alpha #print here should not be -999
-							else:
-								beta = min(beta, newNode.alpha)
-								#print beta #print here should not be 999
-
-							if alphaBetaEnabled and alpha >= beta:
-								breakOut = True
-						else:
-							if maxOrMin:
-								alpha = max(alpha, newNode.beta)
-								#print alpha #print here should not be -999
-							else:
-								beta = max(beta, newNode.alpha)
-								#print beta #print here should not be 999
-
-							#is this logic right??
-							if alphaBetaEnabled:
-								if maxOrMin and alpha >= beta:
-									breakOut = True
-								elif not maxOrMin and alpha <= beta:
-									breakOut = True
-
+					
+					if newCost.hasLosingMove:
+						newNode.setMaxValue(newCost.findBestMove(-1000))
+						newNode.setMinValue(newCost.findBestMove(1000))
+					elif newCost.hasWinningMove:
+						newNode.setMaxValue(newCost.findBestMove(1000))
+						newNode.setMinValue(newCost.findBestMove(-1000))
 					else:
-						newNode.setMaxValue(newCost.findBestMove(True))
-						newNode.setMinValue(newCost.findBestMove(False))
+						#call this to addchildren with !maxOrMin
+						#do not expand on last depth
+						if depth > 1:
+							self._addChildren(newNode, newCost, not maxOrMin, depth - 1, alpha, beta)
+
+							newBeta  = newNode.beta
+
+							#update alpha and beta
+							if parentCost.alphaBetaTrue:
+								if maxOrMin:
+									alpha = max(alpha, newNode.beta)
+									#print alpha #print here should not be -999
+								else:
+									beta = min(beta, newNode.alpha)
+									#print beta #print here should not be 999
+
+								if self.alphaBetaEnabled and alpha >= beta:
+									breakOut = True
+							else:
+								if maxOrMin:
+									alpha = max(alpha, newNode.beta)
+									#print alpha #print here should not be -999
+								else:
+									beta = max(beta, newNode.alpha)
+									#print beta #print here should not be 999
+
+								#is this logic right??
+								if self.alphaBetaEnabled:
+									if maxOrMin and alpha >= beta:
+										breakOut = True
+									elif not maxOrMin and alpha <= beta:
+										breakOut = True
+
+						else:
+							newNode.setMaxValue(newCost.findBestMove(True))
+							newNode.setMinValue(newCost.findBestMove(False))
 
 					newCost.close()
 
@@ -139,10 +145,9 @@ class DFS(object):
 
 	#public handle for starting DFS
 	def compute(self):
-		global depthA
 		rootNode = Node(-1, -1)
 
 		if self.rootCost.hasWinningMove:
 			return (self.rootCost.bestX, self.rootCost.bestY)
 		else:
-			return self._addChildren(rootNode, self.rootCost, True, depthA, -999, 999)
+			return self._addChildren(rootNode, self.rootCost, True, self.depthA, -999, 999)

@@ -10,6 +10,9 @@ NONE = '.'
 PLAYER1 = 'x'
 PLAYER2 = 'o'
 
+depth = 2
+alphaBetaEnabled = True
+
 class Ai2():
 
 	#=======================================================================
@@ -32,7 +35,7 @@ class BasicAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def get_best_move(self, board, length):
-		dfs = DFS(self.marker, board, length)
+		dfs = DFS(self.marker, board, length, depth, False)
 		cost = dfs.rootCost
 		cost.findBestQuickMove()
 		self.bestMoveX = cost.bestX
@@ -44,7 +47,7 @@ class AdvAi(Ai2):
 	#				Functions
 	#=======================================================================
 	def get_best_move(self, board, length):
-		dfs = DFS(self.marker, board, length)
+		dfs = DFS(self.marker, board, length, depth, alphaBetaEnabled)
 		#Just go to depth 1 for first move
 		if self.firstMove:
 			cost = dfs.rootCost
@@ -63,7 +66,7 @@ class TrueAlphaAi(Ai2):
 	#=======================================================================
 	def get_best_move(self, board, length):
 		#Need to create a new Cost2 function!
-		dfs = DFS(self.marker, board, length)
+		dfs = DFS(self.marker, board, length, depth, alphaBetaEnabled)
 		#Just go to depth 1 for first move
 		if self.firstMove:
 			cost = dfs.rootCost

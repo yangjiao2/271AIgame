@@ -25,6 +25,7 @@ class CostFunction(object):
 		self.board  = board
 		self.boardLength = length
 		self.hasWinningMove = False
+		self.hasLosingMove  = False
 		self.max = [[0] * self.boardLength for i in range(self.boardLength)]
 		self.min = [[0] * self.boardLength for i in range(self.boardLength)]
 
@@ -77,8 +78,12 @@ class CostFunction(object):
 
 		if maxOrMin:
 			self.upMaxValues(i, j, 1)
+			self.board[i][j] = self.marker
 		else:
 			self.upMinValues(i, j, 1)
+			self.board[i][j] = '?'
+			
+		self._checkWinningMove()
 
 		self.leastMax = self._findLowerBoundValue(self.max)
 		self.leastMin = self._findLowerBoundValue(self.min)
@@ -361,6 +366,7 @@ class CostFunction(object):
 				if self.board[i][j] != NONE and self.board[i][j] != self.marker:
 					self._checkWin(i ,j)
 					if self.bestX != -1 and self.bestY != -1:
+						self.hasLosingMove  = False
 						self.hasWinningMove = True
 						return
 
