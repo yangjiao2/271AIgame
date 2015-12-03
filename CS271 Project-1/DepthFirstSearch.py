@@ -92,7 +92,7 @@ class DFS(object):
 									#print beta #print here should not be 999
 
 								#is this logic right??
-								alpha >= beta:
+								if alpha >= beta:
 									breakOut = True
 								
 
