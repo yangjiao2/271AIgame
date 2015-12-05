@@ -1,6 +1,0 @@
-*test time complex if remove bounding
-3. dumb ai Random (needs to redo)
-4. dumb ai cover center (needs to redo)
-5. versus player
-
-*add timer to track how long each AI move takes
